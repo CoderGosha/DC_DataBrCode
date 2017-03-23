@@ -43,9 +43,10 @@
             // buttonRelease
             // 
             this.buttonRelease.BackColor = System.Drawing.Color.Azure;
+            this.buttonRelease.Enabled = false;
             this.buttonRelease.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Regular);
             this.buttonRelease.ForeColor = System.Drawing.Color.LightSeaGreen;
-            this.buttonRelease.Location = new System.Drawing.Point(36, 83);
+            this.buttonRelease.Location = new System.Drawing.Point(36, 90);
             this.buttonRelease.Name = "buttonRelease";
             this.buttonRelease.Size = new System.Drawing.Size(160, 26);
             this.buttonRelease.TabIndex = 33;
@@ -75,7 +76,7 @@
             this.buttonDevelop.BackColor = System.Drawing.Color.Azure;
             this.buttonDevelop.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Regular);
             this.buttonDevelop.ForeColor = System.Drawing.Color.LightSeaGreen;
-            this.buttonDevelop.Location = new System.Drawing.Point(36, 149);
+            this.buttonDevelop.Location = new System.Drawing.Point(36, 178);
             this.buttonDevelop.Name = "buttonDevelop";
             this.buttonDevelop.Size = new System.Drawing.Size(160, 26);
             this.buttonDevelop.TabIndex = 38;
@@ -88,7 +89,7 @@
             this.buttonClean.BackColor = System.Drawing.Color.Azure;
             this.buttonClean.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Regular);
             this.buttonClean.ForeColor = System.Drawing.Color.LightSeaGreen;
-            this.buttonClean.Location = new System.Drawing.Point(36, 117);
+            this.buttonClean.Location = new System.Drawing.Point(36, 58);
             this.buttonClean.Name = "buttonClean";
             this.buttonClean.Size = new System.Drawing.Size(160, 26);
             this.buttonClean.TabIndex = 39;

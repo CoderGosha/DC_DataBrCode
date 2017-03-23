@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using DataBarCode;
 using System.IO;
 using Ionic.Zip;
+using Terranova.API;
 
 
 namespace DataBrUpdater
@@ -25,7 +26,7 @@ namespace DataBrUpdater
 
         }
 
-       
+
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
@@ -40,32 +41,29 @@ namespace DataBrUpdater
         private void buttonLast_Click(object sender, EventArgs e)
         {//Очистка директории
 
-            //try
-            //{
-            //    ///Пробуем убить процессы
-            //    List<ProcEntry> processes = new List<ProcEntry>();
-            //    ProcessEnumerator.Enumerate(ref processes);
+            try
+            {
+                //    ///Пробуем убить процессы
+                ProcessInfo[] list = ProcessCE.GetProcesses();
 
-            //    foreach (ProcEntry proc in processes)
-            //    {
-            //        if (proc.ExeName == "DataBarCode.exe")
-            //        {
-            //            ProcessEnumerator.KillProcess(proc.ID);
-            //        }
-            //    }
-            //}
+                foreach (ProcessInfo pinfo in list)
+                {
+                    if (pinfo.FullPath.EndsWith("DataBarCode.exe"))
+                        pinfo.Kill();
+                }
+            }
 
-            //catch (Exception ex)
-            //{
+            catch (Exception ex)
+            {
 
-            //}
+            }
 
 
             foreach (var e1 in System.IO.Directory.GetFiles("DataBrCode\\"))
             {
                 try
                 {
-                    if ((e1.IndexOf("DataBrUpdater.exe") == -1 ) && (e1.IndexOf( "Ionic.Zip.CF.dll") == -1))
+                    if ((e1.IndexOf("DataBrUpdater.exe") == -1) && (e1.IndexOf("Ionic.Zip.CF.dll") == -1))
                         File.Delete(e1);
                 }
 
@@ -86,12 +84,12 @@ namespace DataBrUpdater
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message + e2);
-                   // break;
+                    // break;
                 }
             }
 
             labelloading.Text = "Очистка завершена";
-
+            buttonRelease.Enabled = true;
         }
 
         private void buttonRelease_Click(object sender, EventArgs e)
@@ -106,7 +104,7 @@ namespace DataBrUpdater
             // test.BeginScanEU(EU, AsyncCallGetDataEU, test);
             BrServer.Url = set.AdressAppServer;
             BrServer.BeginSystem_Get_Release(AsyncCallGet_Relise, BrServer);
-            
+
             labelloading.BeginInvoke(new Action(() =>
             {
                 labelloading.Text = "Соединение с сервером";
@@ -144,14 +142,14 @@ namespace DataBrUpdater
 
                 //Раззипуем теперь
 
-                Unzip(FileName, "DataBrCode\\" + DateTime.Now.ToString("yyMMdd-HHmm"));
+                Unzip(FileName, "DataBrCode\\" + "Release");
 
                 labelloading.BeginInvoke(new Action(() =>
                 {
                     labelloading.Text = "Обновление завершено";
                 }));
 
-     
+
             }
 
             catch (Exception ex)
