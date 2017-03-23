@@ -424,7 +424,7 @@ namespace WebAppDataBrCode
                     InsertAGR(fileName, R2);
                     R2.Close();
 
-                    OracleDataReader R3 = orclCGP.GET_WarehouseReader("", true);
+                    OracleDataReader R3 = orclCGP.GET_WarehouseReader();
 
                     InsertTEHUZ(fileName, R3);
                     R3.Close();

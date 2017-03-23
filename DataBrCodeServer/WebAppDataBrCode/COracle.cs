@@ -235,22 +235,17 @@ namespace WebAppDataBrCode
         }
 
 
-        public OracleDataReader GET_WarehouseReader(string agr, bool All)
+        public OracleDataReader GET_WarehouseReader()
         {
             if (!OracleState)
                 this.Connect();
 
             cmd = appConn.CreateCommand();
             cmd.Parameters.Clear();
-            cmd.CommandText = "CGP1_CURSORS.GetListPlace";
+            cmd.CommandText = "CGP1_CURSORS.GetListPlaceTSD";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("curs", OracleType.Cursor).Direction = System.Data.ParameterDirection.Output;
-            if (!All)
-                cmd.Parameters.Add("agr_kod_", OracleType.NVarChar).Value = agr;
-
             OracleDataReader reader = cmd.ExecuteReader();
-
-
             return reader;
 
 
