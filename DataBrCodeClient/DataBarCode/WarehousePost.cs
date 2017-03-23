@@ -27,6 +27,7 @@ namespace DataBarCode
         public ListScanOperation ScanOperation;
         public string SETRZDN { get; set; }
         // public BarcodeReadEventHandler _returnFunc;
+        public bool OperationComplete = false;
 
         public WarehousePost(Intermec.DataCollection.BarcodeReader _bcr, string LabelPlace, ListScanOperation _ScanOperation)
         {
@@ -40,7 +41,15 @@ namespace DataBarCode
             bcr = _bcr;
 
             this.labelPlace = LabelPlace;
-            InitTable();
+            _tblEU = InitTable();
+
+            CreateColumn("УЕ", "УЕ", 180, 0);
+            CreateColumn("Марка", "Марка", 120, 1);
+            CreateColumn("Вес", "Вес", 100, 2);
+            CreateColumn("Размер", "Размер", 140, 3);
+            CreateColumn("Label", "Label", 400, 4);
+            dataGridEu.DataSource = _tblEU;
+
             InitScaner();
 
             labelMX.Text = LabelPlace;
@@ -95,60 +104,39 @@ namespace DataBarCode
         }
 
 
-        public void InitTable()
+        public DataTable InitTable()
         {
 
-            _tblEU = new DataTable("EU");
-
-
+            DataTable tblEU = new DataTable("EU");
 
             DataColumn colSource = new DataColumn("УЕ", typeof(String));
             colSource.DefaultValue = "-";
-            _tblEU.Columns.Add(colSource);
+            tblEU.Columns.Add(colSource);
             // colSource.Caption = "Партия";
             DataColumn colDate = new DataColumn("Марка", typeof(String));
             colDate.DefaultValue = "-";
-            _tblEU.Columns.Add(colDate);
+            tblEU.Columns.Add(colDate);
             // colDate.Caption = "Марка";
-
 
             DataColumn colV = new DataColumn("Вес", typeof(String));
             colV.DefaultValue = "-";
-            _tblEU.Columns.Add(colV);
+            tblEU.Columns.Add(colV);
 
             DataColumn colNomer = new DataColumn("Размер", typeof(String));
             colNomer.DefaultValue = "-";
             // 
-            _tblEU.Columns.Add(colNomer);
+            tblEU.Columns.Add(colNomer);
 
             DataColumn colN = new DataColumn("Label", typeof(String));
             colN.DefaultValue = "-";
-            _tblEU.Columns.Add(colN);
+            tblEU.Columns.Add(colN);
 
             DataColumn colCommit = new DataColumn("Commit", typeof(String));
             colCommit.DefaultValue = "-1";
-            _tblEU.Columns.Add(colCommit);
-            //colNomer.Caption = "Размер";
+            tblEU.Columns.Add(colCommit);
 
-            //DataColumn colS = new DataColumn("S", typeof(String));
-            //_tblEU.Columns.Add(colS);
-
-
-            //DataColumn colSTATUS = new DataColumn("STATUS", typeof(String));
-            //_tblEU.Columns.Add(colSTATUS);
-
+            return tblEU;
             
-
-            /*
-             * 
-             * */
-            CreateColumn("УЕ", "УЕ", 180, 0);
-            CreateColumn("Марка", "Марка", 120, 1);
-            CreateColumn("Вес", "Вес", 100, 2);
-            CreateColumn("Размер", "Размер", 140, 3);
-            CreateColumn("Label", "Label", 400, 4);
-
-            dataGridEu.DataSource = _tblEU;
         }
 
         public void CreateColumn(string HeaderText, string MappingName, int Width, int Pos)
@@ -262,120 +250,6 @@ namespace DataBarCode
             bcr.symbology.QrCode.Enable = false;
         }
 
-
-        //public void TestAdd(string EU)
-        //{
-
-
-        //    try
-        //    {
-        //        LabelEU = EU;
-        //        ///Тут Алгоритм разбора что мы все-таки считали
-        //        ///Для начала считаем по-умолчанию что считываем мы только ЕУ и пишем алгоритм
-        //        ///Открытия формы
-
-        //        if (EU.IndexOf("MX") == 0)
-        //        {//
-        //            //labelStatus.BeginInvoke(new Action(() =>
-        //            //{
-        //            //    labelStatus.Text = "Считано место хранения: " + EU;
-        //            //}));
-        //            return;
-        //        }
-
-        //        //labelStatus.BeginInvoke(new Action(() =>
-        //        //{
-        //        //    labelStatus.Text = "Label: " + EU;
-        //        //}));
-
-        //        //MessageBox.Show(EU);
-
-        //        // GetDataEU(EU);
-
-
-        //        dataGridEu.BeginInvoke(new Action(() =>
-        //        {
-        //            dataGridEu.BackColor = Color.White;
-        //        }));
-
-        //        //Тут делаем таблицу и выводим инфу
-        //        DataRow row1 = _tblEU.NewRow();
-        //        row1["Label"] = EU;
-
-
-        //        //WebReference.WebSDataBrCode BrServer = new WebReference.WebSDataBrCode();
-        //        //BrServer.SoapVersion = System.Web.Services.Protocols.SoapProtocolVersion.Soap12;
-        //        //BrServer.Url = set.AdressAppServer;
-        //        //DataTable result = BrServer.EU_GetData(EU);
-            
-
-        //        using (SQLiteConnection connection = new SQLiteConnection())
-        //        {
-
-        //            ;//(SQLiteConnection)factory.CreateConnection();
-        //            connection.ConnectionString = "Data Source = " + SqLiteDB.pathDBFull_EU;
-        //            SQLiteCommand command = new SQLiteCommand(connection);
-        //            SQLiteCommand insert = new SQLiteCommand("select e.RPRT_NOM, e.MARKA_NAME, e.RELMUCH_THICKNESS, e.RELMUCH_WIDTH from EU e WHERE e.RELMUCH_LABEL = '" + EU + "';", connection);
-        //            connection.Open();
-        //            SQLiteDataReader reader = insert.ExecuteReader();
-        //            while (reader.Read())
-        //            {
-        //                //Запроск К БД
-        //                row1["УЕ"] = _getReaderByName(reader, "RPRT_NOM");
-        //                row1["Марка"] = _getReaderByName(reader, "MARKA_NAME");
-        //                row1["Размер"] = _getReaderByName(reader, "RELMUCH_THICKNESS") + "х" + _getReaderByName(reader, "RELMUCH_WIDTH");
-        //                // row1["S"] = "";
-        //                /*
-        //                 * CREATE TABLE [EU] (
-        //                            [RELMUCH_LABEL] char(20) NOT NULL,
-        //                            [RELMUCH_PRM] char(20),
-        //                            [RELMUCH_VES] char(20),
-        //                            [RELMUCH_FVES] char(20),
-        //                            [RELMUCH_WIDTH] char(20),
-        //                            [RELMUCH_THICKNESS] char(20),
-        //                            [RPRT_NOM] char(20),
-        //                            [RPRTTYP_NAME] char(20),
-        //                            [RPRT_TOL] char(20),
-        //                            [RPRT_SHRN] char(20),
-        //                            [RPRT_PLVNOM] char(20),
-        //                            [MARKA_NAME] char(20),
-        //                            [MARKA_GOST] char(20),
-        //                            [FACT_STORAGE_CODE] char(20),
-        //                            [TEHUZ_LABEL] char(20),
-        //                            [FACT_PLACE_NAME] char(20),
-        //                            [INTRV_TMBEG] char(20))
-        //                 * */
-        //            }
-        //            reader.Close();
-        //            connection.Close();
-        //            command.Dispose();
-        //            insert.Dispose();
-        //            reader.Dispose();
-        //        }
-
-
-
-
-        //        _tblEU.Rows.Add(row1);
-
-        //        listEU.Add(EU);
-
-        //        labelCountScan.Text = listEU.Count.ToString();
-
-        //        dataGridEu.BeginInvoke(new Action(() =>
-        //        {
-        //            dataGridEu.DataSource = _tblEU;
-        //        }));
-
-
-        //    }
-        //    catch (Exception exp)
-        //    {
-        //        CLog.WriteException("WarehousePost.cs", "TestAdd", exp.Message);
-        //        MessageBox.Show(exp.Message);
-        //    }
-        //}
-
         void bcr_BarcodeReadWarehousePost(object sender, BarcodeReadEventArgs bre)
         {
 
@@ -406,6 +280,17 @@ namespace DataBarCode
                 }
 
 
+                //Удалим все УЕ которые закоммитилист.
+                switch (ScanOperation)
+                {
+                    case ListScanOperation.EuInAgr:
+                        {
+                            CleanCommitEU();
+                            break;
+                        }
+                    default:
+                        break;
+                }
 
                 dataGridEu.BeginInvoke(new Action(() =>
                 {
@@ -421,7 +306,7 @@ namespace DataBarCode
                 //BrServer.SoapVersion = System.Web.Services.Protocols.SoapProtocolVersion.Soap12;
                 //BrServer.Url = set.AdressAppServer;
                 //DataTable result = BrServer.EU_GetData(EU);
-     
+
 
                 using (SQLiteConnection connection = new SQLiteConnection())
                 {
@@ -439,27 +324,6 @@ namespace DataBarCode
                         row1["Марка"] = _getReaderByName(reader, "MARKA_NAME");
                         row1["Размер"] = _getReaderByName(reader, "RELMUCH_THICKNESS") + "х" + _getReaderByName(reader, "RELMUCH_WIDTH");
                         row1["Вес"] = SqlLiteQuery.getReaderByName(reader, "RELMUCH_VES");
-                        // row1["S"] = "";
-                        /*
-                         * CREATE TABLE [EU] (
-                                    [RELMUCH_LABEL] char(20) NOT NULL,
-                                    [RELMUCH_PRM] char(20),
-                                    [RELMUCH_VES] char(20),
-                                    [RELMUCH_FVES] char(20),
-                                    [RELMUCH_WIDTH] char(20),
-                                    [RELMUCH_THICKNESS] char(20),
-                                    [RPRT_NOM] char(20),
-                                    [RPRTTYP_NAME] char(20),
-                                    [RPRT_TOL] char(20),
-                                    [RPRT_SHRN] char(20),
-                                    [RPRT_PLVNOM] char(20),
-                                    [MARKA_NAME] char(20),
-                                    [MARKA_GOST] char(20),
-                                    [FACT_STORAGE_CODE] char(20),
-                                    [TEHUZ_LABEL] char(20),
-                                    [FACT_PLACE_NAME] char(20),
-                                    [INTRV_TMBEG] char(20))
-                         * */
                     }
                     reader.Close();
                     connection.Close();
@@ -498,7 +362,37 @@ namespace DataBarCode
             else return "Нет данных";
         }
 
+        private void CleanCommitEU()
+        {
+            //Проверем была ли нажата кнопка
+            if (!OperationComplete)
+                return;
+            OperationComplete = false;
+            try
+            {
+                listEU = new List<string>();
+                //Удаляем все УЕ которые отправиль в БД.
+                //Создадим новую таблицу и добавим в новую.
+                DataTable TmpTbl = InitTable();
+                for (int i = 0; i < _tblEU.Rows.Count; i++)
+                {
+                    if ((_tblEU.Rows[i]["Commit"].ToString() == "0") || (_tblEU.Rows[i]["Commit"].ToString() == "-1"))
+                    {
+                        TmpTbl.ImportRow(_tblEU.Rows[i]);
+                        listEU.Add(_tblEU.Rows[i]["Label"].ToString());
+                        break;
+                    }
+                }
 
+                _tblEU = TmpTbl;
+
+            }
+            catch (Exception ex)
+            {
+                CLog.WriteException("WarehousePost.cs", "CleanCommitEU", ex.ToString());
+            }
+
+        }
 
         public string _getReaderByName(SQLiteDataReader rd, string NameF)
         {
@@ -544,7 +438,7 @@ namespace DataBarCode
 
                     DataTable result = BrServer.POST_EU_LIST_Warehouse(listEU.ToArray(), labelPlace, null);
 
-                   // dataGridEu.BackColor = Color.MediumAquamarine;
+                    // dataGridEu.BackColor = Color.MediumAquamarine;
                     OpenNETCF.Media.SystemSounds.Beep.Play();
 
                     ////Далее нужен алгоритм обработки ответа
@@ -554,18 +448,18 @@ namespace DataBarCode
                         string Label = result.Rows[i]["Label"].ToString();
                         string RCode = result.Rows[i]["resultCode"].ToString();
                         for (int ii = 0; ii < _tblEU.Rows.Count; ii++)
-                            {
-                                string LabelScan = _tblEU.Rows[ii]["Label"].ToString();
-                                string RCodeScan = _tblEU.Rows[ii]["Commit"].ToString();
-                                if (RCodeScan == "-1") 
-                                {//Не смотрим уже измененные
-                                    if (LabelScan == Label) //Поиск по лейблу
-                                        _tblEU.Rows[ii]["Commit"] = RCode;
-                                }
-
+                        {
+                            string LabelScan = _tblEU.Rows[ii]["Label"].ToString();
+                            string RCodeScan = _tblEU.Rows[ii]["Commit"].ToString();
+                            if (RCodeScan == "-1")
+                            {//Не смотрим уже измененные
+                                if (LabelScan == Label) //Поиск по лейблу
+                                    _tblEU.Rows[ii]["Commit"] = RCode;
                             }
 
-                        if (RCode == "0") 
+                        }
+
+                        if (RCode == "0")
                         {
                             string RCodeEx = result.Rows[i]["result"].ToString();
                             //Запишем все в логи...
@@ -959,6 +853,7 @@ namespace DataBarCode
 
                     case ListScanOperation.EuInAgr:
                         {
+                            OperationComplete = true;
                             EUInAgr();
                             break;
                         }
@@ -1038,6 +933,18 @@ namespace DataBarCode
                 {
                     if (search._tblEU.Rows.Count > 0)
                     {
+                        //Удалим все УЕ которые закоммитилист.
+                        switch (ScanOperation)
+                        {
+                            case ListScanOperation.EuInAgr:
+                                {
+                                    CleanCommitEU();
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+
                         //Значит что то выбрали и есть что вставить
                         DataRow row1 = _tblEU.NewRow();
                         row1["Label"] = search.SelectLabel;
@@ -1071,7 +978,7 @@ namespace DataBarCode
 
             else if (e.KeyCode == Keys.F14)
             {
-               // TestAdd("754577007N6");
+                // TestAdd("754577007N6");
             }
         }
 
@@ -1101,7 +1008,7 @@ namespace DataBarCode
                     row1["Марка"] = search.SelectMarka;
                     row1["Размер"] = search.SelectRazmer;
                     row1["Commit"] = "-1";
-                   // _tblEU.Rows.Add(row1);
+                    // _tblEU.Rows.Add(row1);
                     _tblEU.Rows.InsertAt(row1, 0);
                     listEU.Add(search.SelectLabel);
 

@@ -166,7 +166,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label3);
             this.Name = "MenuAgr";
-            this.Text = "MenuAgr";
+            this.Text = "Агрегаты";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MenuAgr_KeyDown);
             this.ResumeLayout(false);
 
