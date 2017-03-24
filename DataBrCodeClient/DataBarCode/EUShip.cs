@@ -436,7 +436,8 @@ namespace DataBarCode
                     if (search._tblEU.Rows.Count > 0)
                     {
                         //Значит что то выбрали и есть что вставить
-                        string Label = search.SelectLabel;
+                        //TODO FAC
+                        string Label = "0";//search.SelectLabel;
 
                         bool find = false;
                         for (int i = 0; i < _tblEU.Rows.Count; i++)

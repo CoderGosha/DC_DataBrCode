@@ -105,6 +105,7 @@
     <Content Include="packages.config" />
     <Content Include="ClassDiagram1.cd" />
     <None Include="Properties\PublishProfiles\WebService.pubxml" />
+    <None Include="Properties\PublishProfiles\WebServiceExpress.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

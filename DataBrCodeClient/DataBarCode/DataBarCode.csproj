@@ -91,6 +91,7 @@
     <Compile Include="ColumnStyle.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CommonType.cs" />
     <Compile Include="DataScales.cs">
       <SubType>Form</SubType>
     </Compile>

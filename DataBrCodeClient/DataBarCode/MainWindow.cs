@@ -125,7 +125,7 @@ namespace DataBarCode
 
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка подключения к серверу");
+                MessageBox.Show("Ошибка подключения к серверу или другая ошибка");
                 CLog.WriteException("MainWindows.cs", "AsyncCallTestLogin", ex.ToString());
             }
             finally

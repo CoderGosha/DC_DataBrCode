@@ -35,12 +35,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.textBoxScan = new System.Windows.Forms.TextBox();
             this.dataGridEu = new System.Windows.Forms.DataGrid();
-            this.dataGridTableStyle1 = new System.Windows.Forms.DataGridTableStyle();
-            this.dataGridTextBoxColumn1 = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dataGridTextBoxColumn2 = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dataGridTextBoxColumn3 = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dataGridTextBoxColumn4 = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dataGridTextBoxColumn5 = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dataGridTableStyleMain = new System.Windows.Forms.DataGridTableStyle();
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -80,62 +75,12 @@
             this.dataGridEu.RowHeadersVisible = false;
             this.dataGridEu.Size = new System.Drawing.Size(230, 207);
             this.dataGridEu.TabIndex = 31;
-            this.dataGridEu.TableStyles.Add(this.dataGridTableStyle1);
+            this.dataGridEu.TableStyles.Add(this.dataGridTableStyleMain);
             this.dataGridEu.CurrentCellChanged += new System.EventHandler(this.dataGridEu_CurrentCellChanged);
             // 
-            // dataGridTableStyle1
+            // dataGridTableStyleMain
             // 
-            this.dataGridTableStyle1.GridColumnStyles.Add(this.dataGridTextBoxColumn1);
-            this.dataGridTableStyle1.GridColumnStyles.Add(this.dataGridTextBoxColumn2);
-            this.dataGridTableStyle1.GridColumnStyles.Add(this.dataGridTextBoxColumn3);
-            this.dataGridTableStyle1.GridColumnStyles.Add(this.dataGridTextBoxColumn4);
-            this.dataGridTableStyle1.GridColumnStyles.Add(this.dataGridTextBoxColumn5);
-            this.dataGridTableStyle1.MappingName = "EU";
-            // 
-            // dataGridTextBoxColumn1
-            // 
-            this.dataGridTextBoxColumn1.Format = "";
-            this.dataGridTextBoxColumn1.FormatInfo = null;
-            this.dataGridTextBoxColumn1.HeaderText = "УЕ";
-            this.dataGridTextBoxColumn1.MappingName = "УЕ";
-            this.dataGridTextBoxColumn1.NullText = "-";
-            this.dataGridTextBoxColumn1.Width = 90;
-            // 
-            // dataGridTextBoxColumn2
-            // 
-            this.dataGridTextBoxColumn2.Format = "";
-            this.dataGridTextBoxColumn2.FormatInfo = null;
-            this.dataGridTextBoxColumn2.HeaderText = "Марка";
-            this.dataGridTextBoxColumn2.MappingName = "Марка";
-            this.dataGridTextBoxColumn2.NullText = "-";
-            this.dataGridTextBoxColumn2.Width = 75;
-            // 
-            // dataGridTextBoxColumn3
-            // 
-            this.dataGridTextBoxColumn3.Format = "";
-            this.dataGridTextBoxColumn3.FormatInfo = null;
-            this.dataGridTextBoxColumn3.HeaderText = "Размер";
-            this.dataGridTextBoxColumn3.MappingName = "Размер";
-            this.dataGridTextBoxColumn3.NullText = "-";
-            this.dataGridTextBoxColumn3.Width = 75;
-            // 
-            // dataGridTextBoxColumn4
-            // 
-            this.dataGridTextBoxColumn4.Format = "";
-            this.dataGridTextBoxColumn4.FormatInfo = null;
-            this.dataGridTextBoxColumn4.HeaderText = "Label";
-            this.dataGridTextBoxColumn4.MappingName = "Label";
-            this.dataGridTextBoxColumn4.NullText = "-";
-            this.dataGridTextBoxColumn4.Width = 90;
-            // 
-            // dataGridTextBoxColumn5
-            // 
-            this.dataGridTextBoxColumn5.Format = "";
-            this.dataGridTextBoxColumn5.FormatInfo = null;
-            this.dataGridTextBoxColumn5.HeaderText = "Вес";
-            this.dataGridTextBoxColumn5.MappingName = "Вес";
-            this.dataGridTextBoxColumn5.NullText = "-";
-            this.dataGridTextBoxColumn5.Width = 60;
+            this.dataGridTableStyleMain.MappingName = "EU";
             // 
             // buttonNext
             // 
@@ -191,11 +136,6 @@
         public System.Windows.Forms.DataGrid dataGridEu;
         private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.Button buttonSearch;
-        private System.Windows.Forms.DataGridTableStyle dataGridTableStyle1;
-        private System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn1;
-        private System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn2;
-        private System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn3;
-        private System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn4;
-        private System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn5;
+        private System.Windows.Forms.DataGridTableStyle dataGridTableStyleMain;
     }
 }
