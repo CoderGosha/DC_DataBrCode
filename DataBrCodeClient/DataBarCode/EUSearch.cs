@@ -178,11 +178,11 @@ namespace DataBarCode
 
             if (_tblEU.Rows.Count > 0)
             {
-                dataGridEu.BeginInvoke(new Action(() =>
-                {
-                  //  dataGridEu.Select(0);
-                    dataGridEu[dataGridEu.CurrentRowIndex, 5] = "+";
-                }));
+                //dataGridEu.BeginInvoke(new Action(() =>
+                //{
+                //    dataGridEu.Select(0);
+                //    dataGridEu[dataGridEu.CurrentRowIndex, 5] = "+";
+                //}));
 
             }
         }
@@ -198,10 +198,9 @@ namespace DataBarCode
             {
                 this.Close();
             }
-            else if (e.KeyCode == Keys.Enter)
+            else if (e.KeyCode == Keys.F3)
             {
                 Search();
-
             }
             else if (e.KeyCode == Keys.F9)
             {
@@ -222,22 +221,23 @@ namespace DataBarCode
         {//Подготавливаем список выбраных ЕУ
             for (int i = 0; i < dataGridEu.VisibleRowCount; i++)
             {
-                if (dataGridEu[dataGridEu.CurrentRowIndex, 5].ToString() == "+")
+                if (dataGridEu[i, 5].ToString() == "+")
                 {
-                    string SelectLabel = dataGridEu[dataGridEu.CurrentRowIndex, 3].ToString();
-                    string SelectYE = dataGridEu[dataGridEu.CurrentRowIndex, 0].ToString();
-                    string SelectMarka = dataGridEu[dataGridEu.CurrentRowIndex, 1].ToString();
-                    string SelectRazmer = dataGridEu[dataGridEu.CurrentRowIndex, 2].ToString();
+                    string SelectLabel = dataGridEu[i, 3].ToString();
+                    string SelectYE = dataGridEu[i, 0].ToString();
+                    string SelectMarka = dataGridEu[i, 1].ToString();
+                    string SelectRazmer = dataGridEu[i, 2].ToString();
                     //
                     Double SelectWeight = 0;
                     try
                     {
-                        SelectWeight = Double.Parse(dataGridEu[dataGridEu.CurrentRowIndex, 4].ToString());
+                        SelectWeight = Double.Parse(dataGridEu[i, 4].ToString());
                     }
 
                     catch (Exception) { }
 
                     CommonType.SelectEU EU = new CommonType.SelectEU(SelectLabel, SelectYE, SelectMarka, SelectRazmer, SelectWeight);
+                    SelectList.Add(EU);
                 }
             }
         }

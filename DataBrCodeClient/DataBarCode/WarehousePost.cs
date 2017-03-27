@@ -945,17 +945,33 @@ namespace DataBarCode
                                 break;
                         }
 
-                        //Значит что то выбрали и есть что вставить
-                        DataRow row1 = _tblEU.NewRow();
-                        row1["Label"] = search.SelectLabel;
-                        row1["УЕ"] = search.SelectYE;
-                        row1["Вес"] = search.SelectWeight.ToString();
-                        row1["Марка"] = search.SelectMarka;
-                        row1["Размер"] = search.SelectRazmer;
-                        row1["Commit"] = "-1";
-                        _tblEU.Rows.InsertAt(row1, 0);
-
-                        listEU.Add(search.SelectLabel);
+                        //Запросим выбрнаные УЕ
+                        List<CommonType.SelectEU> SelList = search.GetSelectedEU();
+                        if (SelList != null)
+                        {
+                            foreach (var elem in SelList) 
+                            {
+                                //Проверим есть ли данная ЕУ в списке
+                                if (ValidateList.CheckEUByList(listEU, elem.Label))
+                                {
+                                    //ЕУ уже в списке
+                                    Sound.PlaySoundWarning();
+                                    //return;
+                                }
+                                else
+                                {
+                                    DataRow row1 = _tblEU.NewRow();
+                                    row1["Label"] = elem.Label;
+                                    row1["УЕ"] = elem.YE;
+                                    row1["Вес"] = elem.Weight.ToString();
+                                    row1["Марка"] = elem.Marka;
+                                    row1["Размер"] = elem.Razmer;
+                                    row1["Commit"] = "-1";
+                                    _tblEU.Rows.InsertAt(row1, 0);
+                                    listEU.Add(elem.Label);
+                                }
+                            }
+                        }
 
                         labelCountScan.BeginInvoke(new Action(() =>
                         {
@@ -1000,17 +1016,33 @@ namespace DataBarCode
             {
                 if (search._tblEU.Rows.Count > 0)
                 {
-                    //Значит что то выбрали и есть что вставить
-                    DataRow row1 = _tblEU.NewRow();
-                    row1["Label"] = search.SelectLabel;
-                    row1["УЕ"] = search.SelectYE;
-                    row1["Вес"] = search.SelectWeight.ToString();
-                    row1["Марка"] = search.SelectMarka;
-                    row1["Размер"] = search.SelectRazmer;
-                    row1["Commit"] = "-1";
-                    // _tblEU.Rows.Add(row1);
-                    _tblEU.Rows.InsertAt(row1, 0);
-                    listEU.Add(search.SelectLabel);
+                    //Запросим выбрнаные УЕ
+                    List<CommonType.SelectEU> SelList = search.GetSelectedEU();
+                    if (SelList != null)
+                    {
+                        foreach (var elem in SelList)
+                        {
+                            //Проверим есть ли данная ЕУ в списке
+                            if (ValidateList.CheckEUByList(listEU, elem.Label))
+                            {
+                                //ЕУ уже в списке
+                                Sound.PlaySoundWarning();
+                                //return;
+                            }
+                            else
+                            {
+                                DataRow row1 = _tblEU.NewRow();
+                                row1["Label"] = elem.Label;
+                                row1["УЕ"] = elem.YE;
+                                row1["Вес"] = elem.Weight.ToString();
+                                row1["Марка"] = elem.Marka;
+                                row1["Размер"] = elem.Razmer;
+                                row1["Commit"] = "-1";
+                                _tblEU.Rows.InsertAt(row1, 0);
+                                listEU.Add(elem.Label);
+                            }
+                        }
+                    }
 
 
                     labelCountScan.BeginInvoke(new Action(() =>
