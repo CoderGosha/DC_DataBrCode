@@ -314,15 +314,37 @@ namespace DataBarCode
             {
                 if (search._tblEU.Rows.Count > 0)
                 {
-                    //Значит что то выбрали и есть что вставить
-                    DataRow row1 = _tblEU.NewRow();
-                    row1["Label"] = search.SelectLabel;
-                    row1["УЕ"] = search.SelectYE;
-                    row1["Марка"] = search.SelectMarka;
-                    row1["Размер"] = search.SelectRazmer;
-                    _tblEU.Rows.Add(row1);
+                    //Запросим выбрнаные УЕ
+                    List<CommonType.SelectEU> SelList = search.GetSelectedEU();
+                    if (SelList != null)
+                    {
+                        foreach (var elem in SelList)
+                        {
+                            //Проверим есть ли данная ЕУ в списке
+                            if (ValidateList.CheckEUByList(listEU, elem.Label))
+                            {
+                                //ЕУ уже в списке
+                                Sound.PlaySoundWarning();
+                                //return;
+                            }
+                            else
+                            {
+                                Double WEIGHT_EU = 0;
+                                WEIGHT_EU = elem.Weight;
 
-                    listEU.Add(search.SelectLabel);
+                                DataRow row1 = _tblEU.NewRow();
+                                row1["Label"] = elem.Label;
+                                row1["УЕ"] = elem.YE;
+                                row1["Вес"] = elem.Weight.ToString();
+                                row1["Марка"] = elem.Marka;
+                                row1["Размер"] = elem.Razmer;
+
+                                ScanWeigth -= WEIGHT_EU;
+                                _tblEU.Rows.InsertAt(row1, 0);
+                                listEU.Add(elem.Label);
+                            }
+                        }
+                    }
 
                     dataGridEu.BeginInvoke(new Action(() =>
                     {
@@ -366,22 +388,38 @@ namespace DataBarCode
                 {
                     if (search._tblEU.Rows.Count > 0)
                     {
-                        Double WEIGHT_EU = 0;
-                        //Значит что то выбрали и есть что вставить
-                        WEIGHT_EU = search.SelectWeight;
 
-                        DataRow row1 = _tblEU.NewRow();
-                        row1["Label"] = search.SelectLabel;
-                        row1["УЕ"] = search.SelectYE;
-                        row1["Марка"] = search.SelectMarka;
-                        row1["Размер"] = search.SelectRazmer;
-                        row1["Вес"] = WEIGHT_EU;
+                        //Запросим выбрнаные УЕ
+                        List<CommonType.SelectEU> SelList = search.GetSelectedEU();
+                        if (SelList != null)
+                        {
+                            foreach (var elem in SelList)
+                            {
+                                 //Проверим есть ли данная ЕУ в списке
+                                if (ValidateList.CheckEUByList(listEU, elem.Label))
+                                {
+                                    //ЕУ уже в списке
+                                    Sound.PlaySoundWarning();
+                                    //return;
+                                }
+                                else
+                                {
+                                    Double WEIGHT_EU = 0;
+                                    WEIGHT_EU = elem.Weight;
 
-                        ScanWeigth -= WEIGHT_EU;
+                                    DataRow row1 = _tblEU.NewRow();
+                                    row1["Label"] = elem.Label;
+                                    row1["УЕ"] = elem.YE;
+                                    row1["Вес"] = elem.Weight.ToString();
+                                    row1["Марка"] = elem.Marka;
+                                    row1["Размер"] = elem.Razmer;
 
-                        
-                        _tblEU.Rows.Add(row1);
-                        listEU.Add(search.SelectLabel);
+                                    ScanWeigth -= WEIGHT_EU;
+                                    _tblEU.Rows.InsertAt(row1, 0);
+                                    listEU.Add(elem.Label);
+                                }
+                            }
+                        }
 
                         dataGridEu.BeginInvoke(new Action(() =>
                         {

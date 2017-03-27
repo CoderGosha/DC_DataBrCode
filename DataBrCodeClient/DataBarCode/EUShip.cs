@@ -436,19 +436,27 @@ namespace DataBarCode
                     if (search._tblEU.Rows.Count > 0)
                     {
                         //Значит что то выбрали и есть что вставить
-                        //TODO FAC
-                        string Label = "0";//search.SelectLabel;
-
                         bool find = false;
-                        for (int i = 0; i < _tblEU.Rows.Count; i++)
+                        List<CommonType.SelectEU> SelList = search.GetSelectedEU();
+                        if (SelList != null)
                         {
-                            string l = _tblEU.Rows[i]["Label"].ToString();
-                            if (l == Label)
+                            foreach (var elem in SelList)
                             {
-                                find = true;
-                                _tblEU.Rows[i]["Select"] = "1";
-                                break;
+                                string Label = "0";
+                                Label = elem.Label;
+
+                                for (int i = 0; i < _tblEU.Rows.Count; i++)
+                                {
+                                    string l = _tblEU.Rows[i]["Label"].ToString();
+                                    if (l == Label)
+                                    {
+                                        find = true;
+                                        _tblEU.Rows[i]["Select"] = "1";
+                                        break;
+                                    }
+                                }
                             }
+
                         }
 
                         if (find)
@@ -486,17 +494,25 @@ namespace DataBarCode
                 if (search._tblEU.Rows.Count > 0)
                 {
                     //Значит что то выбрали и есть что вставить
-                    string Label = search.SelectLabel;
-
                     bool find = false;
-                    for (int i = 0; i < _tblEU.Rows.Count; i++)
+                    List<CommonType.SelectEU> SelList = search.GetSelectedEU();
+                    if (SelList != null)
                     {
-                        string l = _tblEU.Rows[i]["Label"].ToString();
-                        if (l == Label)
+                        foreach (var elem in SelList)
                         {
-                            find = true;
-                            _tblEU.Rows[i]["Select"] = "1";
-                            break;
+                            string Label = "0";
+                            Label = elem.Label;
+
+                            for (int i = 0; i < _tblEU.Rows.Count; i++)
+                            {
+                                string l = _tblEU.Rows[i]["Label"].ToString();
+                                if (l == Label)
+                                {
+                                    find = true;
+                                    _tblEU.Rows[i]["Select"] = "1";
+                                    break;
+                                }
+                            }
                         }
                     }
 
