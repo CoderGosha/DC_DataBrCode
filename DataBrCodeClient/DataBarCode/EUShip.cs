@@ -68,9 +68,9 @@ namespace DataBarCode
             //  
 
             CreateColumn("ФОК", "ФОК", 160, 0);
-            CreateColumn("Марка", "Марка", 120, 1);
-            CreateColumn("Размер", "Размер", 140, 2);
-            CreateColumn("МХ", "МХ", 400, 3);
+           // CreateColumn("Марка", "Марка", 120, 1);
+            CreateColumn("Размер", "Размер", 140, 1);
+            CreateColumn("МХ", "МХ", 400, 2);
             // CreateColumn("Select", "Select", 40, 3);
             try
             {
@@ -271,7 +271,7 @@ namespace DataBarCode
                 ///select EU.RELMUCH_LABEL 'Label', EU.RPRT_NOM 'ФОК', EU.MARKA_NAME 'Марка',  printf('%sx%s', EU.RELMUCH_THICKNESS, EU.RELMUCH_WIDTH) 'Размер' , (
                 //select TEHUZ.TEHUZ_NAZ  FROM TEHUZ WHERE TEHUZ.TEHUZ_KOD = EU.TEHUZ_KOD) 'МХ'
                 // FROM TaskListEU, EU, TaskList WHERE TaskListEU.RELMUCH_PRM = EU.RELMUCH_PRM AND TaskList.RZDN_PRM = TaskListEU.RZDN_PRM  AND TaskList.DOC_BC =  'S0001500000331052016'
-                SQLiteCommand insert = new SQLiteCommand("select EU.RELMUCH_LABEL 'Label', EU.RPRT_NOM 'ФОК', EU.MARKA_NAME 'Марка',  printf('%sx%s', EU.RELMUCH_THICKNESS, EU.RELMUCH_WIDTH) 'Размер' , (select TEHUZ.TEHUZ_NAZ  FROM TEHUZ WHERE TEHUZ.TEHUZ_KOD = EU.TEHUZ_KOD) 'МХ' FROM TaskListEU, EU, TaskList WHERE TaskListEU.RELMUCH_PRM = EU.RELMUCH_PRM AND TaskList.RZDN_PRM = TaskListEU.RZDN_PRM  AND TaskList.DOC_BC = '" + Doc + "' LIMIT 50;", connection);
+                SQLiteCommand insert = new SQLiteCommand("select EU.RELMUCH_LABEL 'Label', EU.RPRT_NOM 'ФОК', EU.RELMUCH_PROFILE 'Размер' , (select TEHUZ.TEHUZ_NAZ  FROM TEHUZ WHERE TEHUZ.TEHUZ_KOD = EU.TEHUZ_KOD) 'МХ' FROM TaskListEU, EU, TaskList WHERE TaskListEU.RELMUCH_PRM = EU.RELMUCH_PRM AND TaskList.RZDN_PRM = TaskListEU.RZDN_PRM  AND TaskList.DOC_BC = '" + Doc + "' LIMIT 50;", connection);
                 connection.Open();
                 SQLiteDataReader reader = insert.ExecuteReader();
                 _tblEU.Load(reader);

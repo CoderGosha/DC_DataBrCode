@@ -534,7 +534,8 @@ namespace WebAppDataBrCode
                                 [TEHUZ_KOD] intager,
                                 [INTRV_TMBEG] char(20),
                                 [INTRV_TMEND] char(20),
-                                [ORDER_SAP] char(20)
+                                [ORDER_SAP] char(20),
+                                [RELMUCH_PROFILE] char(25)
                                 );";
                     command.CommandType = CommandType.Text;
                     command.ExecuteNonQuery();
@@ -783,7 +784,7 @@ RELMUCH_PRM	258552982
 
                 while (reader.Read())
                 {
-                    using (SQLiteCommand insert = new SQLiteCommand("insert into EU(RELMUCH_LABEL, SIGN, RELMUCH_PRM, RELMUCH_VES, RELMUCH_FVES, RELMUCH_WIDTH, RELMUCH_THICKNESS, RPRT_NOM, RPRTTYP_NAME,RPRT_PLVNOM, MARKA_NAME,  MARKA_GOST, TEHUZ_KOD,INTRV_TMBEG, INTRV_TMEND, ORDER_SAP) values(@RELMUCH_LABEL, @SIGN, @RELMUCH_PRM, @RELMUCH_VES, @RELMUCH_FVES,@RELMUCH_WIDTH,@RELMUCH_THICKNESS,@RPRT_NOM,@RPRTTYP_NAME, @RPRT_PLVNOM, @MARKA_NAME, @MARKA_GOST, @TEHUZ_KOD, @INTRV_TMBEG, @INTRV_TMEND, @ORDER_SAP)", connection))
+                    using (SQLiteCommand insert = new SQLiteCommand("insert into EU(RELMUCH_LABEL, SIGN, RELMUCH_PRM, RELMUCH_VES, RELMUCH_FVES, RELMUCH_WIDTH, RELMUCH_THICKNESS, RPRT_NOM, RPRTTYP_NAME,RPRT_PLVNOM, MARKA_NAME,  MARKA_GOST, TEHUZ_KOD,INTRV_TMBEG, INTRV_TMEND, ORDER_SAP, RELMUCH_PROFILE) values(@RELMUCH_LABEL, @SIGN, @RELMUCH_PRM, @RELMUCH_VES, @RELMUCH_FVES,@RELMUCH_WIDTH,@RELMUCH_THICKNESS,@RPRT_NOM,@RPRTTYP_NAME, @RPRT_PLVNOM, @MARKA_NAME, @MARKA_GOST, @TEHUZ_KOD, @INTRV_TMBEG, @INTRV_TMEND, @ORDER_SAP, @RELMUCH_PROFILE)", connection))
                     {
 
                         insert.Parameters.AddWithValue("@RELMUCH_LABEL", _getOracleByName(reader, "RELMUCH_LABEL"));
@@ -804,6 +805,7 @@ RELMUCH_PRM	258552982
                         insert.Parameters.AddWithValue("@INTRV_TMBEG", _getOracleByName(reader, "INTRV_TMBEG"));
                         insert.Parameters.AddWithValue("@INTRV_TMEND", _getOracleByName(reader, "INTRV_TMEND"));
                         insert.Parameters.AddWithValue("@ORDER_SAP", _getOracleByName(reader, "ORDER_SAP"));
+                        insert.Parameters.AddWithValue("@RELMUCH_PROFILE", _getOracleByName(reader, "RELMUCH_PROFILE"));
                         insert.Transaction = liteTransaction;
                         insert.ExecuteNonQuery();
 
