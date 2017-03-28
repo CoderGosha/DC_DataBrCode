@@ -18,6 +18,7 @@
     <NativePlatformName>Windows CE</NativePlatformName>
     <FormFactorID>
     </FormFactorID>
+    <ApplicationIcon>file_document_paper_green_g13247_2647.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -116,6 +117,9 @@
     </None>
     <None Include="Web References\WebReference\websdatabrupdater.disco" />
     <None Include="Web References\WebReference\websdatabrupdater.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="file_document_paper_green_g13247_2647.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
