@@ -781,10 +781,44 @@ namespace DataBarCode
             {//Если мы в Онлайне
                 try
                 {
-                    DataTable result = BrServer.POST_EU_LIST_INVERT_MX(listEU.ToArray(), this.SETRZDN, labelPlace, null);
+                    //Перед запросом сбросим все
+                    for (int ii = 0; ii < _tblEU.Rows.Count; ii++)
+                    {
+                        _tblEU.Rows[ii]["Commit"] = "-1";
+                    }
 
-                    dataGridEu.BackColor = Color.MediumAquamarine;
+                    DataTable result = BrServer.POST_EU_LIST_INVERT_MX(listEU.ToArray(), this.SETRZDN, labelPlace, null);
                     OpenNETCF.Media.SystemSounds.Beep.Play();
+
+                    ////Далее нужен алгоритм обработки ответа
+                    //Парсим ответ, и выставляем биты..
+                    for (int i = 0; i < result.Rows.Count; i++)
+                    {
+                        string Label = result.Rows[i]["Label"].ToString();
+                        string RCode = result.Rows[i]["resultCode"].ToString();
+                        for (int ii = 0; ii < _tblEU.Rows.Count; ii++)
+                        {
+                            string LabelScan = _tblEU.Rows[ii]["Label"].ToString();
+                            string RCodeScan = _tblEU.Rows[ii]["Commit"].ToString();
+                            if (RCodeScan == "-1")
+                            {//Не смотрим уже измененные
+                                if (LabelScan == Label) //Поиск по лейблу
+                                    _tblEU.Rows[ii]["Commit"] = RCode;
+                            }
+                        }
+
+                        if (RCode == "0")
+                        {
+                            string RCodeEx = result.Rows[i]["result"].ToString();
+                            //Запишем все в логи...
+                            CLog.WriteException("WarehousePost.cs", "InventorySet", "Label: " + Label + " resultCode: " + RCode + " result: " + RCodeEx);
+                        }
+                    }
+
+                    dataGridEu.BeginInvoke(new Action(() =>
+                    {
+                        dataGridEu.DataSource = _tblEU;
+                    }));
                 }
 
                 catch (System.Net.WebException ex)
@@ -799,13 +833,23 @@ namespace DataBarCode
                     OpenNETCF.Media.SystemSounds.Beep.Play();
                     Thread.Sleep(100);
                     OpenNETCF.Media.SystemSounds.Beep.Play();
+                    //Меняем статус на желтый 
+                    for (int ii = 0; ii < _tblEU.Rows.Count; ii++)
+                    {
+                        _tblEU.Rows[ii]["Commit"] = "3";
+                    }
+
+                    dataGridEu.BeginInvoke(new Action(() =>
+                    {
+                        dataGridEu.DataSource = _tblEU;
+                    }));
+
                 }
 
                 catch (System.Net.Sockets.SocketException ex)
                 {//На случай если во время выполнения сломается связть 
 
                     dataGridEu.BackColor = Color.LemonChiffon;
-
                     BufferToBD.ModeNetTerminalB = false;
                     CLog.WriteException("WarehousePost.cs", "TaskMove", ex.ToString());
                     //Отправляем в буфер
@@ -814,6 +858,16 @@ namespace DataBarCode
                     OpenNETCF.Media.SystemSounds.Beep.Play();
                     Thread.Sleep(100);
                     OpenNETCF.Media.SystemSounds.Beep.Play();
+                    //Меняем статус на желтый 
+                    for (int ii = 0; ii < _tblEU.Rows.Count; ii++)
+                    {
+                        _tblEU.Rows[ii]["Commit"] = "3";
+                    }
+
+                    dataGridEu.BeginInvoke(new Action(() =>
+                    {
+                        dataGridEu.DataSource = _tblEU;
+                    }));
 
                 }
             }
@@ -826,6 +880,16 @@ namespace DataBarCode
                 OpenNETCF.Media.SystemSounds.Beep.Play();
                 Thread.Sleep(100);
                 OpenNETCF.Media.SystemSounds.Beep.Play();
+                //Меняем статус на желтый 
+                for (int ii = 0; ii < _tblEU.Rows.Count; ii++)
+                {
+                    _tblEU.Rows[ii]["Commit"] = "3";
+                }
+
+                dataGridEu.BeginInvoke(new Action(() =>
+                {
+                    dataGridEu.DataSource = _tblEU;
+                }));
 
             }
         }
