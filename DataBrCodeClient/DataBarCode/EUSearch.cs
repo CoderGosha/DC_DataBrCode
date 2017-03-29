@@ -24,13 +24,13 @@ namespace DataBarCode
 
             SelectList = new List<CommonType.SelectEU>();
             //dataGridEu.
-
-            CreateColumn("УЕ", "УЕ", 180, 0);
-            CreateColumn("Марка", "Марка", 150, 1);
-            CreateColumn("Размер", "Размер", 150, 2);
-            CreateColumn("Label", "Label", 180, 3);
-            CreateColumn("Вес", "Вес", 120, 4);
-            CreateColumn("S", "Select", 40, 5);
+            CreateColumn("S", "Select", 40, 0);
+            CreateColumn("УЕ", "УЕ", 180, 1);
+            CreateColumn("Марка", "Марка", 150, 2);
+            CreateColumn("Размер", "Размер", 150, 3);
+            CreateColumn("Label", "Label", 180, 4);
+            CreateColumn("Вес", "Вес", 120, 5);
+            
 
             InitTable();
             dataGridEu.GridLineStyle = DataGridLineStyle.Solid;
@@ -89,7 +89,7 @@ namespace DataBarCode
             try
             {
                 //Внедрим новое условие проверки
-                string YE = (string)dataGridEu[e.Row, 0];
+                string YE = (string)dataGridEu[e.Row, 1];
                 //Для этой НУ найдем в таблице соответсвие и выделим как стоит
                 e.PaintColor = false;
                 e.MeetsCriteria = false;
@@ -219,19 +219,19 @@ namespace DataBarCode
 
         private void CreateSelectedList()
         {//Подготавливаем список выбраных ЕУ
-            for (int i = 0; i < dataGridEu.VisibleRowCount; i++)
+            for (int i = 0; i < _tblEU.Rows.Count; i++)
             {
-                if (dataGridEu[i, 5].ToString() == "+")
+                if (dataGridEu[i, 0].ToString() == "+")
                 {
-                    string SelectLabel = dataGridEu[i, 3].ToString();
-                    string SelectYE = dataGridEu[i, 0].ToString();
-                    string SelectMarka = dataGridEu[i, 1].ToString();
-                    string SelectRazmer = dataGridEu[i, 2].ToString();
+                    string SelectLabel = dataGridEu[i, 4].ToString();
+                    string SelectYE = dataGridEu[i, 1].ToString();
+                    string SelectMarka = dataGridEu[i, 2].ToString();
+                    string SelectRazmer = dataGridEu[i, 3].ToString();
                     //
                     Double SelectWeight = 0;
                     try
                     {
-                        SelectWeight = Double.Parse(dataGridEu[i, 4].ToString());
+                        SelectWeight = Double.Parse(dataGridEu[i, 5].ToString());
                     }
 
                     catch (Exception) { }
@@ -248,10 +248,10 @@ namespace DataBarCode
             {
                 //dataGridEu.Select(dataGridEu.CurrentRowIndex);
                 //Установим нужные значения
-                if (dataGridEu[dataGridEu.CurrentRowIndex, 5].ToString() == "-")
-                    dataGridEu[dataGridEu.CurrentRowIndex, 5] = "+";
+                if (dataGridEu[dataGridEu.CurrentRowIndex, 0].ToString() == "-")
+                    dataGridEu[dataGridEu.CurrentRowIndex, 0] = "+";
                 else
-                    dataGridEu[dataGridEu.CurrentRowIndex, 5] = "-";
+                    dataGridEu[dataGridEu.CurrentRowIndex, 0] = "-";
             }
             catch (Exception ex)
             {

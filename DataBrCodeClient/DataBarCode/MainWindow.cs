@@ -162,8 +162,10 @@ namespace DataBarCode
             }
             else if (e.KeyCode == Keys.F14)
             {
-                WiFiTest test = new WiFiTest();
-                test.Show();
+                using (ServiceFunc service = new ServiceFunc())
+                {
+                    service.ShowDialog();
+                }
 
             }
         }
