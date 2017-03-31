@@ -256,7 +256,7 @@ namespace DataBarCode
                 connection.ConnectionString = "Data Source = " + SqLiteDB.pathDBFull_EU;
                 SQLiteCommand command = new SQLiteCommand(connection);
 
-                SQLiteCommand insert = new SQLiteCommand("select TEHUZ.TEHUZ_NAZ, TEHUZ.TEHUZ_LABEL FROM  TEHUZ WHERE TEHUZ.AGR_KOD = '" + AGR + "';", connection);
+                SQLiteCommand insert = new SQLiteCommand("select TEHUZ.TEHUZ_NAZ, TEHUZ.TEHUZ_LABEL FROM  TEHUZ WHERE TEHUZ.TEHUZ_LABEL NOT LIKE 'B%' AND TEHUZ.AGR_KOD = '" + AGR + "';", connection);
                 connection.Open();
                 SQLiteDataReader reader = insert.ExecuteReader();
 

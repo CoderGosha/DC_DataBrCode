@@ -227,6 +227,36 @@ namespace WebAppDataBrCode
             return true;
         }
 
+        [SoapHeader("brHeader")]
+        //Receive any SOAP headers other than MyHeader.
+        [SoapHeader("unknownHeaders")]
+        [WebMethod(Description = "Проверка административного доступа")]
+        public bool Test_Login_Admin()
+        {
+            TInfo t = Identific(brHeader);
+
+            if (this.Server.MachineName == "IVPAKHOLKOV-PC")
+            {
+                AddAllLog(t, "Login", "Пропуск авторизации");
+                return true;
+            }
+
+            try
+            {
+                ctx = winId.Impersonate();
+                AddAllLog(t, "Login", "Доступ разрешен");
+            }
+            catch (Exception)
+            {
+                AddAllLog(t, "Login", "Доступ запрешен, и мы не разрешаем");
+                return false;
+            }
+
+
+            EndUser();
+            return true;
+        }
+
         //------------Размещение на складе
         [SoapHeader("brHeader")]
         //Receive any SOAP headers other than MyHeader.

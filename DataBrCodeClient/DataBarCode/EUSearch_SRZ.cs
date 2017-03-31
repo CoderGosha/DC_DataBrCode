@@ -97,8 +97,9 @@ namespace DataBarCode
             using (SQLiteConnection connection = new SQLiteConnection())
             {
                 string SQL = @"select printf('%sx%s', EU.RELMUCH_THICKNESS, EU.RELMUCH_WIDTH) 'RAZMER', 
-                                EU.MARKA_NAME, EU.MARKA_GOST, EU.RELMUCH_VES, TEHUZ.TEHUZ_NAZ from EU, TEHUZ 
+                                EU.MARKA_NAME, EU.MARKA_GOST, EU.RELMUCH_VES, TEHUZ.TEHUZ_NAZ from EU, TEHUZ, AGR 
                                 WHERE EU.SIGN = '1' AND EU.TEHUZ_KOD = TEHUZ.TEHUZ_KOD AND EU.RPRTTYP_NAME = 'Штрипс' 
+                                AND (AGR.AGR_KOD = '262' OR AGR.AGR_KOD = '364' OR AGR.AGR_KOD = '461') AND AGR.AGR_KOD = TEHUZ.AGR_KOD
 
 
                                 ";
