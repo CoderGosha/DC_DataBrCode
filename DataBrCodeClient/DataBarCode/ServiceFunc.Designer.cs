@@ -38,6 +38,10 @@
             this.labelAutoStart = new System.Windows.Forms.Label();
             this.labellnk = new System.Windows.Forms.Label();
             this.buttonLnk = new System.Windows.Forms.Button();
+            this.labelApp = new System.Windows.Forms.Label();
+            this.buttonAppOFF = new System.Windows.Forms.Button();
+            this.buttonAppOn = new System.Windows.Forms.Button();
+            this.labelStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelVersion
@@ -72,7 +76,7 @@
             this.buttonAutostart.BackColor = System.Drawing.Color.Azure;
             this.buttonAutostart.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Regular);
             this.buttonAutostart.ForeColor = System.Drawing.Color.LightSeaGreen;
-            this.buttonAutostart.Location = new System.Drawing.Point(25, 118);
+            this.buttonAutostart.Location = new System.Drawing.Point(25, 131);
             this.buttonAutostart.Name = "buttonAutostart";
             this.buttonAutostart.Size = new System.Drawing.Size(186, 26);
             this.buttonAutostart.TabIndex = 32;
@@ -102,12 +106,54 @@
             this.buttonLnk.BackColor = System.Drawing.Color.Azure;
             this.buttonLnk.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Regular);
             this.buttonLnk.ForeColor = System.Drawing.Color.LightSeaGreen;
-            this.buttonLnk.Location = new System.Drawing.Point(25, 150);
+            this.buttonLnk.Location = new System.Drawing.Point(25, 163);
             this.buttonLnk.Name = "buttonLnk";
             this.buttonLnk.Size = new System.Drawing.Size(186, 26);
             this.buttonLnk.TabIndex = 35;
             this.buttonLnk.Text = "Ярлыки";
             this.buttonLnk.Click += new System.EventHandler(this.buttonLnk_Click);
+            // 
+            // labelApp
+            // 
+            this.labelApp.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
+            this.labelApp.ForeColor = System.Drawing.Color.White;
+            this.labelApp.Location = new System.Drawing.Point(3, 102);
+            this.labelApp.Name = "labelApp";
+            this.labelApp.Size = new System.Drawing.Size(232, 23);
+            this.labelApp.Text = "Other APP:";
+            // 
+            // buttonAppOFF
+            // 
+            this.buttonAppOFF.BackColor = System.Drawing.Color.Azure;
+            this.buttonAppOFF.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Regular);
+            this.buttonAppOFF.ForeColor = System.Drawing.Color.LightSeaGreen;
+            this.buttonAppOFF.Location = new System.Drawing.Point(25, 195);
+            this.buttonAppOFF.Name = "buttonAppOFF";
+            this.buttonAppOFF.Size = new System.Drawing.Size(186, 26);
+            this.buttonAppOFF.TabIndex = 43;
+            this.buttonAppOFF.Text = "App OFF";
+            this.buttonAppOFF.Click += new System.EventHandler(this.buttonAppOFF_Click);
+            // 
+            // buttonAppOn
+            // 
+            this.buttonAppOn.BackColor = System.Drawing.Color.Azure;
+            this.buttonAppOn.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Regular);
+            this.buttonAppOn.ForeColor = System.Drawing.Color.LightSeaGreen;
+            this.buttonAppOn.Location = new System.Drawing.Point(25, 227);
+            this.buttonAppOn.Name = "buttonAppOn";
+            this.buttonAppOn.Size = new System.Drawing.Size(186, 26);
+            this.buttonAppOn.TabIndex = 44;
+            this.buttonAppOn.Text = "App ON";
+            this.buttonAppOn.Click += new System.EventHandler(this.buttonAppOn_Click);
+            // 
+            // labelStatus
+            // 
+            this.labelStatus.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
+            this.labelStatus.ForeColor = System.Drawing.Color.White;
+            this.labelStatus.Location = new System.Drawing.Point(4, 260);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(232, 23);
+            this.labelStatus.Text = "Status";
             // 
             // ServiceFunc
             // 
@@ -117,6 +163,10 @@
             this.BackColor = System.Drawing.Color.MediumAquamarine;
             this.ClientSize = new System.Drawing.Size(238, 295);
             this.ControlBox = false;
+            this.Controls.Add(this.labelStatus);
+            this.Controls.Add(this.buttonAppOn);
+            this.Controls.Add(this.buttonAppOFF);
+            this.Controls.Add(this.labelApp);
             this.Controls.Add(this.buttonLnk);
             this.Controls.Add(this.labellnk);
             this.Controls.Add(this.labelAutoStart);
@@ -141,5 +191,9 @@
         private System.Windows.Forms.Label labelAutoStart;
         private System.Windows.Forms.Label labellnk;
         private System.Windows.Forms.Button buttonLnk;
+        private System.Windows.Forms.Label labelApp;
+        private System.Windows.Forms.Button buttonAppOFF;
+        private System.Windows.Forms.Button buttonAppOn;
+        private System.Windows.Forms.Label labelStatus;
     }
 }

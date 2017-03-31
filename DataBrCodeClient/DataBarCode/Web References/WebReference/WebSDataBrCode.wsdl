@@ -63,6 +63,16 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="Test_Login_Admin">
+        <s:complexType />
+      </s:element>
+      <s:element name="Test_Login_AdminResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Test_Login_AdminResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="POST_EU_LIST_Warehouse">
         <s:complexType>
           <s:sequence>
@@ -295,6 +305,16 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="BLACKLISTAPP">
+        <s:complexType />
+      </s:element>
+      <s:element name="BLACKLISTAPPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BLACKLISTAPPResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetServerDataTimeSoapIn">
@@ -331,6 +351,15 @@
     <wsdl:part name="parameters" element="tns:Test_LoginResponse" />
   </wsdl:message>
   <wsdl:message name="Test_LoginBrHeader">
+    <wsdl:part name="BrHeader" element="tns:BrHeader" />
+  </wsdl:message>
+  <wsdl:message name="Test_Login_AdminSoapIn">
+    <wsdl:part name="parameters" element="tns:Test_Login_Admin" />
+  </wsdl:message>
+  <wsdl:message name="Test_Login_AdminSoapOut">
+    <wsdl:part name="parameters" element="tns:Test_Login_AdminResponse" />
+  </wsdl:message>
+  <wsdl:message name="Test_Login_AdminBrHeader">
     <wsdl:part name="BrHeader" element="tns:BrHeader" />
   </wsdl:message>
   <wsdl:message name="POST_EU_LIST_WarehouseSoapIn">
@@ -441,6 +470,15 @@
   <wsdl:message name="CHECK_CLIENT_VERSIONBrHeader">
     <wsdl:part name="BrHeader" element="tns:BrHeader" />
   </wsdl:message>
+  <wsdl:message name="BLACKLISTAPPSoapIn">
+    <wsdl:part name="parameters" element="tns:BLACKLISTAPP" />
+  </wsdl:message>
+  <wsdl:message name="BLACKLISTAPPSoapOut">
+    <wsdl:part name="parameters" element="tns:BLACKLISTAPPResponse" />
+  </wsdl:message>
+  <wsdl:message name="BLACKLISTAPPBrHeader">
+    <wsdl:part name="BrHeader" element="tns:BrHeader" />
+  </wsdl:message>
   <wsdl:portType name="WebSDataBrCodeSoap">
     <wsdl:operation name="GetServerDataTime">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получение времени с сервера</wsdl:documentation>
@@ -461,6 +499,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Проверка авторизации пользователя</wsdl:documentation>
       <wsdl:input message="tns:Test_LoginSoapIn" />
       <wsdl:output message="tns:Test_LoginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Test_Login_Admin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Проверка административного доступа</wsdl:documentation>
+      <wsdl:input message="tns:Test_Login_AdminSoapIn" />
+      <wsdl:output message="tns:Test_Login_AdminSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="POST_EU_LIST_Warehouse">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Размещение ЕУ на МХ</wsdl:documentation>
@@ -526,6 +569,11 @@
       <wsdl:input message="tns:CHECK_CLIENT_VERSIONSoapIn" />
       <wsdl:output message="tns:CHECK_CLIENT_VERSIONSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="BLACKLISTAPP">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">BlackListAPP</wsdl:documentation>
+      <wsdl:input message="tns:BLACKLISTAPPSoapIn" />
+      <wsdl:output message="tns:BLACKLISTAPPSoapOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebSDataBrCodeSoap" type="tns:WebSDataBrCodeSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -564,6 +612,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:Test_LoginBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Test_Login_Admin">
+      <soap:operation soapAction="WebSDataBrCode/Test_Login_Admin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:Test_Login_AdminBrHeader" part="BrHeader" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -696,6 +754,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="BLACKLISTAPP">
+      <soap:operation soapAction="WebSDataBrCode/BLACKLISTAPP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:BLACKLISTAPPBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebSDataBrCodeSoap12" type="tns:WebSDataBrCodeSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -734,6 +802,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:Test_LoginBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Test_Login_Admin">
+      <soap12:operation soapAction="WebSDataBrCode/Test_Login_Admin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:Test_Login_AdminBrHeader" part="BrHeader" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -861,6 +939,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:CHECK_CLIENT_VERSIONBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BLACKLISTAPP">
+      <soap12:operation soapAction="WebSDataBrCode/BLACKLISTAPP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:BLACKLISTAPPBrHeader" part="BrHeader" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

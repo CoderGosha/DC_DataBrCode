@@ -233,22 +233,27 @@ namespace WebAppDataBrCode
         [WebMethod(Description = "Проверка административного доступа")]
         public bool Test_Login_Admin()
         {
+            
             TInfo t = Identific(brHeader);
 
             if (this.Server.MachineName == "IVPAKHOLKOV-PC")
             {
-                AddAllLog(t, "Login", "Пропуск авторизации");
+                AddAllLog(t, "Login_Admin", "Пропуск авторизации");
                 return true;
             }
 
             try
             {
                 ctx = winId.Impersonate();
-                AddAllLog(t, "Login", "Доступ разрешен");
+                using (COracle orclCGP = new COracle())
+                {
+                    orclCGP.AdminTSDCheck();
+                }
+                AddAllLog(t, "Login_Admin", "Доступ разрешен");
             }
             catch (Exception)
             {
-                AddAllLog(t, "Login", "Доступ запрешен, и мы не разрешаем");
+                AddAllLog(t, "Login_Admin", "Доступ запрешен, и мы не разрешаем");
                 return false;
             }
 
@@ -1521,6 +1526,44 @@ RELMUCH_PRM	258552982
 
 
             return SReturn;
+
+        }
+
+        [SoapHeader("brHeader")]
+        //Receive any SOAP headers other than MyHeader.
+        [SoapHeader("unknownHeaders")]
+        [WebMethod(Description = "BlackListAPP")]
+        public List<string> BLACKLISTAPP()
+        {
+            List<string> LSR = new List<string>();
+            try
+            {
+
+                InitUser();
+                TInfo t = Identific(brHeader);
+                string path = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+                path += "\\BlackListAppTSD.txt";
+                using (StreamReader sr = new StreamReader(path))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        LSR.Add(sr.ReadLine());
+                    
+                    }
+                    sr.Close();
+                }
+
+                AddAllLog(t, "BLACKLISTAPP", "SEND");
+                EndUser();
+            }
+            catch (Exception ex)
+            {
+                AddAllLog("BLACKLISTAPP", ex.Message);
+
+            }
+
+
+            return LSR;
 
         }
 

@@ -129,6 +129,25 @@ namespace DataBarCode.WebReference {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("BrHeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("WebSDataBrCode/Test_Login_Admin", RequestNamespace="WebSDataBrCode", ResponseNamespace="WebSDataBrCode", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool Test_Login_Admin() {
+            object[] results = this.Invoke("Test_Login_Admin", new object[0]);
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginTest_Login_Admin(System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("Test_Login_Admin", new object[0], callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public bool EndTest_Login_Admin(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("BrHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("WebSDataBrCode/POST_EU_LIST_Warehouse", RequestNamespace="WebSDataBrCode", ResponseNamespace="WebSDataBrCode", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataTable POST_EU_LIST_Warehouse(string[] listEU, string Place, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> TimeOperation) {
             object[] results = this.Invoke("POST_EU_LIST_Warehouse", new object[] {
@@ -411,6 +430,25 @@ namespace DataBarCode.WebReference {
         public string EndCHECK_CLIENT_VERSION(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("BrHeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("WebSDataBrCode/BLACKLISTAPP", RequestNamespace="WebSDataBrCode", ResponseNamespace="WebSDataBrCode", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string[] BLACKLISTAPP() {
+            object[] results = this.Invoke("BLACKLISTAPP", new object[0]);
+            return ((string[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginBLACKLISTAPP(System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("BLACKLISTAPP", new object[0], callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public string[] EndBLACKLISTAPP(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((string[])(results[0]));
         }
     }
     

@@ -7,14 +7,21 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Net;
 
 namespace DataBarCode
 {
     public partial class ServiceFunc : Form
     {
+        Settings set;
+        List<string> blacklistApp;
         public ServiceFunc()
         {
             InitializeComponent();
+
+            set = new Settings("DataBrCode.xml");
+
+
             labelVersion.Text = "Версия ПО: " + CBrHeader.ClientVersion;
 
             if (CheckAutostart())
@@ -34,7 +41,122 @@ namespace DataBarCode
             {
                 labellnk.Text = "Ярлыки: " + "Fail";
             }
+            blacklistApp = new List<string>();
+            CheckSecurity();
         }
+
+        private void ButtonEnabled(bool enable)
+        {
+            buttonAppOn.BeginInvoke(new Action(() =>
+            {
+                buttonAppOn.Enabled = enable;
+            }));
+
+            buttonAutostart.BeginInvoke(new Action(() =>
+            {
+                buttonAutostart.Enabled = enable;
+            }));
+
+            buttonLnk.BeginInvoke(new Action(() =>
+            {
+                buttonLnk.Enabled = enable;
+            }));
+
+            buttonAppOFF.BeginInvoke(new Action(() =>
+            {
+                buttonAppOFF.Enabled = enable;
+            }));
+        }
+
+        private void CheckSecurity()
+        {
+            ButtonEnabled(false);
+            //Запускаем ассинхронную проверку с сервера
+            labelStatus.BeginInvoke(new Action(() =>
+            {
+                labelStatus.Text = "Проверка безопасности";
+            }));
+
+            WebReference.WebSDataBrCode BrServer = new WebReference.WebSDataBrCode();
+            BrServer.SoapVersion = System.Web.Services.Protocols.SoapProtocolVersion.Soap12;
+            BrServer.Url = set.AdressAppServer;
+            BrServer.BrHeaderValue = CBrHeader.GetHeader();
+            BrServer.Credentials = new NetworkCredential(CBrHeader.Login, CBrHeader.Password);
+            BrServer.BeginTest_Login_Admin(AsyncCallCheckSecurity, BrServer);
+
+        }
+
+        public void AsyncCallCheckSecurity(IAsyncResult res)
+        {
+
+            try
+            {
+                WebReference.WebSDataBrCode BrServer = res.AsyncState as WebReference.WebSDataBrCode;
+                bool result = BrServer.EndTest_Login_Admin(res);
+                if (result)
+                {
+                    labelStatus.BeginInvoke(new Action(() =>
+                    {
+                        labelStatus.Text = "Доступ разрешен";
+                    }));
+                    CLog.WriteInfo("ServiceFunc.cs", "Authorization ok");
+                    ButtonEnabled(true);
+                }
+                else
+                {
+                    labelStatus.BeginInvoke(new Action(() =>
+                    {
+                        labelStatus.Text = "Доступ запрещен";
+                    }));
+                    CLog.WriteInfo("ServiceFunc.cs", "Authorization Fail");
+
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                CLog.WriteException("ServiceFunc.cs", "AsyncCallFixedWeight", ex.Message);
+                labelStatus.BeginInvoke(new Action(() =>
+                {//
+                    labelStatus.Text = "Доступ запрещен";
+                }));
+            }
+
+            WebReference.WebSDataBrCode BrSer = new WebReference.WebSDataBrCode();
+            BrSer.SoapVersion = System.Web.Services.Protocols.SoapProtocolVersion.Soap12;
+            BrSer.Url = set.AdressAppServer;
+            BrSer.BrHeaderValue = CBrHeader.GetHeader();
+            BrSer.Credentials = new NetworkCredential(CBrHeader.Login, CBrHeader.Password);
+            BrSer.BeginBLACKLISTAPP(AsyncCallBlackList, BrSer);
+
+        }
+
+        public void AsyncCallBlackList(IAsyncResult res)
+        {
+
+            try
+            {
+                WebReference.WebSDataBrCode BrServer = res.AsyncState as WebReference.WebSDataBrCode;
+                blacklistApp = BrServer.EndBLACKLISTAPP(res).ToList();
+                labelStatus.BeginInvoke(new Action(() =>
+                {
+                    labelStatus.Text = "BlackList - ok";
+                }));
+
+            }
+
+            catch (Exception ex)
+            {
+                labelStatus.BeginInvoke(new Action(() =>
+                {
+                    labelStatus.Text = "BlackList - fail";
+                }));
+                CLog.WriteException("ServiceFunc.cs", "AsyncCallBlackList", ex.Message);
+
+            }
+        }
+
 
         private void ServiceFunc_KeyDown(object sender, KeyEventArgs e)
         {
@@ -44,7 +166,7 @@ namespace DataBarCode
             }
             else if (e.KeyCode == Keys.F9)
             {
-               
+
             }
         }
 
@@ -88,7 +210,7 @@ namespace DataBarCode
         private bool CheckAutostart()
         {
             bool find = false;
- 
+
             foreach (var elem in Directory.GetFiles("Windows\\Автозагрузка"))
             {
                 if (elem.IndexOf("DataBarCode.lnk") != -1)
@@ -158,6 +280,21 @@ namespace DataBarCode
             {
                 labellnk.Text = "Ярлыки: " + "Fail";
             }
+        }
+
+        private void buttonAppOn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonAppOFF_Click(object sender, EventArgs e)
+        {
+            ///Выключаем ярлыки, для уверенности копируем их в куда-то...
+            ///
+            if (blacklistApp == null)
+                return;
+
+          //  foreach (
         }
 
     }

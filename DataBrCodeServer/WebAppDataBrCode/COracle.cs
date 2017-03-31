@@ -141,6 +141,29 @@ namespace WebAppDataBrCode
         }
 
 
+        public void AdminTSDCheck()
+        {
+            /*
+  security.check_right(num_op => :num_op,
+                       agr_kod_ => :agr_kod_,
+                       tehuz_kod_ => :tehuz_kod_);
+             * */
+            if (!OracleState)
+                this.Connect();
+
+            cmd = appConn.CreateCommand();
+            cmd.Parameters.Clear();
+            cmd.CommandText = "security.check_right";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("num_op", OracleType.NVarChar).Value = "2048";
+
+            cmd.ExecuteNonQuery();
+
+            if (OracleState)
+                this.Close();
+        }
+
+
         public DataTable EU_GetData(string lable)
         {
             if (!OracleState)
