@@ -33,8 +33,6 @@ namespace WebAppDataBrCode
     // Чтобы разрешить вызывать веб-службу из скрипта с помощью ASP.NET AJAX, раскомментируйте следующую строку. 
     // [System.Web.Script.Services.ScriptService]
 
-
-
     public class WebSDataBrCode : System.Web.Services.WebService
     {
         static DateTime CleanDataBase;

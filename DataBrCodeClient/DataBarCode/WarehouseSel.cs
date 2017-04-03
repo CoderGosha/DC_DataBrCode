@@ -357,6 +357,57 @@ namespace DataBarCode
             {
                 this.Close();
             }
+
+            else if (e.KeyCode == Keys.D1)
+            {
+                if (_WareHousePost == null)
+                {
+                    _WareHousePost = new WarehousePost(bcr, "MX0263.2630001", ListScanOperation.MXSet);
+                    _WareHousePost.Show();
+                }
+
+                else
+                {
+                    _WareHousePost.Close();
+                    // UIEU.Dispose();
+                    _WareHousePost = new WarehousePost(bcr, "MX0263.2630001", ListScanOperation.MXSet);
+                    _WareHousePost.Show();
+                }
+            }
+
+            else if (e.KeyCode == Keys.D2)
+            {
+                if (_WareHousePost == null)
+                {
+                    _WareHousePost = new WarehousePost(bcr, "MX0324.3240001", ListScanOperation.MXSet);
+                    _WareHousePost.Show();
+                }
+
+                else
+                {
+                    _WareHousePost.Close();
+                    // UIEU.Dispose();
+                    _WareHousePost = new WarehousePost(bcr, "MX0324.3240001", ListScanOperation.MXSet);
+                    _WareHousePost.Show();
+                }
+            }
+
+            else if (e.KeyCode == Keys.D3)
+            {
+                if (_WareHousePost == null)
+                {
+                    _WareHousePost = new WarehousePost(bcr, "MX0362.3620001", ListScanOperation.MXSet);
+                    _WareHousePost.Show();
+                }
+
+                else
+                {
+                    _WareHousePost.Close();
+                    // UIEU.Dispose();
+                    _WareHousePost = new WarehousePost(bcr, "MX0362.3620001", ListScanOperation.MXSet);
+                    _WareHousePost.Show();
+                }
+            }
         }
 
         private void WarehouseSel_Closed(object sender, EventArgs e)
