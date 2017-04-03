@@ -168,6 +168,11 @@ namespace DataBarCode
             {
 
             }
+
+            else if (e.KeyCode == Keys.E)
+            {
+               
+            }
         }
 
         private void CreateAutostart()
@@ -284,7 +289,29 @@ namespace DataBarCode
 
         private void buttonAppOn_Click(object sender, EventArgs e)
         {
+            string FolderBackup = "TempFilesBackup";
 
+            int BackUpFile = 0;
+
+            foreach (var elem in Directory.GetFiles(FolderBackup))
+            {
+                try
+                {
+                    //Определим имя файла для копирования
+                    File.Copy(elem, @"Windows\Главное меню\Программы" + "\\" + GetFileName(elem), true);
+                    BackUpFile++;
+                }
+                catch (Exception ex)
+                {
+                    CLog.WriteException("ServiceFunc", "buttonAppOn_Click", ex.ToString());
+                }
+
+            }
+
+            labelStatus.BeginInvoke(new Action(() =>
+            {
+                labelStatus.Text = "Restore files: " + BackUpFile.ToString();
+            }));
         }
 
         private void buttonAppOFF_Click(object sender, EventArgs e)
@@ -295,6 +322,68 @@ namespace DataBarCode
                 return;
 
           //  foreach (
+            //Создадим директорию, скидаем файлы из списка..
+            string FolderBackup = "TempFilesBackup";
+            //Сейчас включим только копирование
+            try
+            {
+                Directory.CreateDirectory(FolderBackup);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            int BackUpFile = 0;
+            foreach (var elem in blacklistApp)
+            {
+                try
+                {
+                    //Определим имя файла для копирования
+                    File.Copy(elem, FolderBackup + "\\" + GetFileName(elem), true);
+                    BackUpFile++;
+                }
+                catch (Exception ex)
+                {
+                    CLog.WriteException("ServiceFunc", "buttonAppOFF_Click", ex.ToString());
+                }
+
+            }
+
+            int DelFile = DeleteFileList(blacklistApp);
+
+            labelStatus.BeginInvoke(new Action(() =>
+            {
+                labelStatus.Text = "Backup/Delete files: " + BackUpFile.ToString() + "/" + DelFile.ToString();
+            }));
+
+            
+
+        }
+        private string GetFileName(string pathFile)
+        {
+            int LIndex = pathFile.LastIndexOf("\\");
+            return pathFile.Substring(LIndex + 1);
+        }
+
+        private int DeleteFileList(List<String> LDelete)
+        {
+            int DeleteFile = 0;
+            foreach (var elem in LDelete)
+            {
+                try
+                {
+                    //Определим имя файла для копирования
+                    File.Delete(elem);
+                    DeleteFile++;
+                }
+                catch (Exception ex)
+                {
+                    CLog.WriteException("ServiceFunc", "DeleteFileList", ex.ToString());
+                }
+
+            }
+            return DeleteFile;
         }
 
     }
