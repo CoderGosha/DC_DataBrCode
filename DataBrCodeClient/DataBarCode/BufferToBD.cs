@@ -307,14 +307,14 @@ namespace DataBarCode
     public class BufferOper_POST_EU_LIST_Warehouse : IBufferOperationOracle
     {
 
-        public string[] label;
-        public string Plase;
+        public WebReference.Relmuch[] label;
+        public WebReference.MXPlace Place;
         public DateTime TimeOperation;
 
-        public BufferOper_POST_EU_LIST_Warehouse(string Plase, string[] label)
+        public BufferOper_POST_EU_LIST_Warehouse(WebReference.MXPlace Place, WebReference.Relmuch[] label)
         {
             this.label = label;
-            this.Plase = Plase;
+            this.Place = Place;
             TimeOperation = DateTime.Now;
         }
 
@@ -325,7 +325,7 @@ namespace DataBarCode
             BrServer.Url = AdressAppServer;
             BrServer.BrHeaderValue = CBrHeader.GetHeader();
             BrServer.Credentials = new NetworkCredential(CBrHeader.Login, CBrHeader.Password);
-            DataTable result = BrServer.POST_EU_LIST_Warehouse(label, Plase, TimeOperation);
+            DataTable result = BrServer.POST_EU_LIST_WAREHOUSE_TYPE(label, Place, TimeOperation);
 
         }
 
@@ -334,25 +334,19 @@ namespace DataBarCode
     public class BufferOper_POST_EU_LIST_TASKMOVE : IBufferOperationOracle
     {
 
-        public string[] label;
-        public string Plase;
+        public WebReference.Relmuch[] label;
+        public WebReference.MXPlace Place;
         public DateTime TimeOperation;
 
-        public BufferOper_POST_EU_LIST_TASKMOVE(string Plase, string[] label)
+        public BufferOper_POST_EU_LIST_TASKMOVE(WebReference.MXPlace Place, WebReference.Relmuch[] label)
         {
             this.label = label;
-            this.Plase = Plase;
+            this.Place = Place;
             TimeOperation = DateTime.Now;
         }
 
         public void StartOperation(String AdressAppServer)
         {
-            WebReference.WebSDataBrCode BrServer = new WebReference.WebSDataBrCode();
-            BrServer.SoapVersion = System.Web.Services.Protocols.SoapProtocolVersion.Soap12;
-            BrServer.Url = AdressAppServer;
-            BrServer.BrHeaderValue = CBrHeader.GetHeader();
-            BrServer.Credentials = new NetworkCredential(CBrHeader.Login, CBrHeader.Password);
-            DataTable result = BrServer.POST_EU_TASK_MOVE(label, Plase, TimeOperation);
 
         }
 
@@ -361,11 +355,11 @@ namespace DataBarCode
     public class BufferOper_POST_EU_IN_AGR : IBufferOperationOracle
     {
 
-        public string[] label;
-        public string Agr;
+        public WebReference.Relmuch[] label;
+        public WebReference.MXPlace Agr;
         public DateTime TimeOperation;
 
-        public BufferOper_POST_EU_IN_AGR(string Agr, string[] label)
+        public BufferOper_POST_EU_IN_AGR(WebReference.MXPlace Agr, WebReference.Relmuch[] label)
         {
             this.label = label;
             this.Agr = Agr;
@@ -379,7 +373,7 @@ namespace DataBarCode
             BrServer.Url = AdressAppServer;
             BrServer.BrHeaderValue = CBrHeader.GetHeader();
             BrServer.Credentials = new NetworkCredential(CBrHeader.Login, CBrHeader.Password);
-            DataTable result = BrServer.POST_EU_IN_AGR(label, Agr, TimeOperation);
+            DataTable result = BrServer.POST_EU_IN_AGR_TYPE(label, Agr, TimeOperation);
 
         }
 
@@ -388,11 +382,11 @@ namespace DataBarCode
     public class BufferOper_POST_EU_LIST_SHIP : IBufferOperationOracle
     {
 
-        public string[] label;
+        public WebReference.Relmuch[] label;
         public string Rzdn;
         public DateTime TimeOperation;
 
-        public BufferOper_POST_EU_LIST_SHIP(string RZDN, string[] label)
+        public BufferOper_POST_EU_LIST_SHIP(string RZDN, WebReference.Relmuch[] label)
         {
             this.label = label;
             this.Rzdn = RZDN;
@@ -406,7 +400,7 @@ namespace DataBarCode
             BrServer.Url = AdressAppServer;
             BrServer.BrHeaderValue = CBrHeader.GetHeader();
             BrServer.Credentials = new NetworkCredential(CBrHeader.Login, CBrHeader.Password);
-            DataTable result = BrServer.POST_EU_LIST_SHIP(label, Rzdn, TimeOperation);
+            DataTable result = BrServer.POST_EU_LIST_SHIP_TYPE(label, Rzdn, TimeOperation);
 
         }
 
@@ -415,11 +409,11 @@ namespace DataBarCode
     public class BufferOper_POST_EU_LIST_RZDN_AGR : IBufferOperationOracle
     {
 
-        public string[] label;
+        public WebReference.Relmuch[] label;
         public string Rzdn;
         public DateTime TimeOperation;
 
-        public BufferOper_POST_EU_LIST_RZDN_AGR(string RZDN, string[] label)
+        public BufferOper_POST_EU_LIST_RZDN_AGR(string RZDN, WebReference.Relmuch[] label)
         {
             this.label = label;
             this.Rzdn = RZDN;
@@ -433,7 +427,7 @@ namespace DataBarCode
             BrServer.Url = AdressAppServer;
             BrServer.BrHeaderValue = CBrHeader.GetHeader();
             BrServer.Credentials = new NetworkCredential(CBrHeader.Login, CBrHeader.Password);
-            DataTable result = BrServer.POST_EU_LIST_RZDN_AGR(label, Rzdn, TimeOperation);
+            DataTable result = BrServer.POST_EU_LIST_RZDN_AGR_TYPE(label, Rzdn, TimeOperation);
 
         }
 
@@ -442,16 +436,16 @@ namespace DataBarCode
     public class BufferOper_POST_EU_LIST_INVERT_MX : IBufferOperationOracle
     {
 
-        public string[] label;
         public string Rzdn;
-        public string MX_LABEL;
+        public WebReference.Relmuch[] label;
+        public WebReference.MXPlace Place;
         public DateTime TimeOperation;
 
-        public BufferOper_POST_EU_LIST_INVERT_MX(string RZDN, string MX_LABEL, string[] label)
+        public BufferOper_POST_EU_LIST_INVERT_MX(WebReference.MXPlace Place, string RZDN, WebReference.Relmuch[] label)
         {
             this.label = label;
             this.Rzdn = RZDN;
-            this.MX_LABEL = MX_LABEL;
+            this.Place = Place;
             TimeOperation = DateTime.Now;
         }
 
@@ -462,7 +456,7 @@ namespace DataBarCode
             BrServer.Url = AdressAppServer;
             BrServer.BrHeaderValue = CBrHeader.GetHeader();
             BrServer.Credentials = new NetworkCredential(CBrHeader.Login, CBrHeader.Password);
-            DataTable result = BrServer.POST_EU_LIST_INVERT_MX(label, Rzdn, MX_LABEL, TimeOperation);
+            DataTable result = BrServer.POST_EU_LIST_INVERT_MX_TYPE(label, Rzdn, Place, TimeOperation);
 
         }
 

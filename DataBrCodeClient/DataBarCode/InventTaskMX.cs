@@ -104,7 +104,7 @@ namespace DataBarCode
 
                                     if (_WareHousePost == null)
                                     {
-                                        _WareHousePost = new WarehousePost(bcr, EU, ScanOperation);
+                                        _WareHousePost = new WarehousePost(bcr, EU, ScanOperation, 5);
                                         _WareHousePost.SETRZDN = SelectRZDN;
                                         _WareHousePost.Show();
                                     }
@@ -116,7 +116,7 @@ namespace DataBarCode
                                         {
                                             _WareHousePost.Close();
                                             // UIEU.Dispose();
-                                            _WareHousePost = new WarehousePost(bcr, EU, ScanOperation);
+                                            _WareHousePost = new WarehousePost(bcr, EU, ScanOperation, 5);
                                             _WareHousePost.SETRZDN = SelectRZDN;
                                             _WareHousePost.Show();
                                         }
@@ -235,7 +235,7 @@ namespace DataBarCode
 
             if (_WareHousePost == null)
             {
-                _WareHousePost = new WarehousePost(bcr, SelectMX_LABEL, ScanOperation);
+                _WareHousePost = new WarehousePost(bcr, SelectMX_LABEL, ScanOperation, 3);
                 _WareHousePost.SETRZDN = SelectRZDN;
                 _WareHousePost.Show();
             }
@@ -247,7 +247,7 @@ namespace DataBarCode
                 {
                     _WareHousePost.Close();
                     // UIEU.Dispose();
-                    _WareHousePost = new WarehousePost(bcr, SelectMX_LABEL, ScanOperation);
+                    _WareHousePost = new WarehousePost(bcr, SelectMX_LABEL, ScanOperation, 3);
                     _WareHousePost.SETRZDN = SelectRZDN;
                     _WareHousePost.Show();
                 }

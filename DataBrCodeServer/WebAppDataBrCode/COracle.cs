@@ -443,6 +443,67 @@ cgp1_arm_cursors.get_order(curs => :curs,
 
         }
 
+        public DataTable POST_EU_LIST_Warehouse(List<Relmuch> listEU, MXPlace Place, DateTime? TimeOperation = null)
+        {
+            if (!OracleState)
+                this.Connect();
+
+            DataTable _tblEU = new DataTable();
+            _tblEU.TableName = "POST_EU_LIST_Warehouse";
+
+            DataColumn colN = new DataColumn("Label", typeof(String));
+            _tblEU.Columns.Add(colN);
+            DataColumn colSource = new DataColumn("result", typeof(String));
+            _tblEU.Columns.Add(colSource);
+
+            DataColumn colCode = new DataColumn("resultCode", typeof(String));
+            _tblEU.Columns.Add(colCode);
+
+            foreach (var e in listEU)
+            {
+                string result = "";
+                string resultCode = "";
+
+                try
+                {
+
+                    cmd = appConn.CreateCommand();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "CGP1.PutUnit";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add("tehuz_label_", OracleType.NVarChar).Value = Place.ToString();
+                    cmd.Parameters.Add("relmuch_label_", OracleType.NVarChar).Value = e.ToString();
+                    // OracleDataReader reader = cmd.ExecuteReader();
+                    cmd.Parameters.Add("ResInfo", OracleType.NChar, 100).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("ResCode", OracleType.NChar, 100).Direction = ParameterDirection.Output;
+
+                    if ((TimeOperation != DateTime.MinValue) && (TimeOperation != null))
+                        cmd.Parameters.Add("date_event_", OracleType.NVarChar).Value = TimeOperation;
+
+                    cmd.ExecuteNonQuery();
+
+                    result = cmd.Parameters["ResInfo"].Value.ToString();
+                    resultCode = cmd.Parameters["ResCode"].Value.ToString();
+                }
+
+                catch (Exception ex)
+                {
+                    result = ex.Message;
+                    resultCode = "0";
+                }
+                DataRow row1 = _tblEU.NewRow();
+                row1["Label"] = e;
+                row1["result"] = result;
+                row1["resultCode"] = resultCode;
+                _tblEU.Rows.Add(row1);
+                //   cmd->Parameters["relmuch_prm_"]->CollectionType = OracleCollectionType::PLSQLAssociativeArray;
+            }
+
+            if (OracleState)
+                this.Close();
+
+            return _tblEU;
+        }
 
 
         public DataTable POST_EU_TASK_MOVE(List<string> listEU, string Place, DateTime? TimeOperation = null)
@@ -610,6 +671,78 @@ cgp1_arm_cursors.get_order(curs => :curs,
 
         }
 
+        public DataTable POST_EU_IN_AGR(List<Relmuch> listEU, MXPlace Agr, DateTime? TimeOperation = null)
+        {
+            if (!OracleState)
+                this.Connect();
+
+            DataTable _tblEU = new DataTable();
+            _tblEU.TableName = "POST_EU_IN_AGR";
+
+            DataColumn colN = new DataColumn("Label", typeof(String));
+            _tblEU.Columns.Add(colN);
+            DataColumn colSource = new DataColumn("result", typeof(String));
+            _tblEU.Columns.Add(colSource);
+
+            DataColumn colCode = new DataColumn("resultCode", typeof(String));
+            _tblEU.Columns.Add(colCode);
+
+            foreach (var e in listEU)
+            {
+                string result = "";
+                string resultCode = "";
+
+                try
+                {
+                    /*
+                     *   cgp1.placeunit(relmuch_label_ => :relmuch_label_,
+                 relmuch_prm_ => :relmuch_prm_,
+                 tehuz_label_ => :tehuz_label_,
+                 tehuz_kod_ => :tehuz_kod_);
+                     * */
+
+                    cmd = appConn.CreateCommand();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "CGP1.placeunit";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("relmuch_label_", OracleType.NVarChar).Value = e.ToString();
+                    cmd.Parameters.Add("tehuz_label_", OracleType.NVarChar).Value = Agr.ToString();
+
+                    if ((TimeOperation != DateTime.MinValue) && (TimeOperation != null))
+                        cmd.Parameters.Add("date_event_", OracleType.NVarChar).Value = TimeOperation;
+
+                    cmd.ExecuteNonQuery();
+
+                    result = "";
+                    resultCode = "1";
+
+                }
+
+                catch (Exception ex)
+                {
+                    result = ex.Message;
+                    resultCode = "0";
+
+                }
+                DataRow row1 = _tblEU.NewRow();
+                row1["Label"] = e;
+                row1["result"] = result;
+                row1["resultCode"] = resultCode;
+                _tblEU.Rows.Add(row1);
+                //   cmd->Parameters["relmuch_prm_"]->CollectionType = OracleCollectionType::PLSQLAssociativeArray;
+            }
+
+
+
+
+
+            if (OracleState)
+                this.Close();
+
+            return _tblEU;
+
+        }
 
         public DataTable POST_EU_LIST_SHIP(List<string> listEU, string rzdn, DateTime? TimeOperation = null)
         {
@@ -687,6 +820,77 @@ procedure DispatchUnit(rzdn_prm_      rzdn.rzdn_prm%type, -- Идент зада
         }
 
 
+        public DataTable POST_EU_LIST_SHIP(List<Relmuch> listEU, string rzdn, DateTime? TimeOperation = null)
+        {
+            if (!OracleState)
+                this.Connect();
+
+            DataTable _tblEU = new DataTable();
+            _tblEU.TableName = "POST_EU_LIST_SHIP";
+
+            DataColumn colN = new DataColumn("Label", typeof(String));
+            _tblEU.Columns.Add(colN);
+            DataColumn colSource = new DataColumn("result", typeof(String));
+            _tblEU.Columns.Add(colSource);
+
+            DataColumn colCode = new DataColumn("resultCode", typeof(String));
+            _tblEU.Columns.Add(colCode);
+
+            foreach (var e in listEU)
+            {
+                string result = "";
+                string resultCode = "";
+
+                try
+                {
+                    /*
+procedure DispatchUnit(rzdn_prm_      rzdn.rzdn_prm%type, -- Идент задания на отгрузку
+                       relmuch_label_ relmuch.relmuch_label%type default null,
+                       relmuch_prm_   relmuch.relmuch_prm%type default null,
+                       sign_master_   pls_integer default 1, -- 1 - ТСД, 2 - АРМ, 3 - ДТ
+                       automat_       pls_integer default 3) 
+                     * */
+
+                    cmd = appConn.CreateCommand();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "CGP1.DispatchUnit";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("rzdn_prm_", OracleType.NVarChar).Value = rzdn;
+                    cmd.Parameters.Add("relmuch_label_", OracleType.NVarChar).Value = e.ToString();
+
+                    if ((TimeOperation != DateTime.MinValue) && (TimeOperation != null))
+                        cmd.Parameters.Add("date_event_", OracleType.NVarChar).Value = TimeOperation;
+
+
+                    cmd.ExecuteNonQuery();
+
+                    result = "";
+                    resultCode = "1";
+
+                }
+
+                catch (Exception ex)
+                {
+                    result = ex.Message;
+                    resultCode = "0";
+
+                }
+                DataRow row1 = _tblEU.NewRow();
+                row1["Label"] = e;
+                row1["result"] = result;
+                row1["resultCode"] = resultCode;
+                _tblEU.Rows.Add(row1);
+                //   cmd->Parameters["relmuch_prm_"]->CollectionType = OracleCollectionType::PLSQLAssociativeArray;
+            }
+
+            if (OracleState)
+                this.Close();
+
+            return _tblEU;
+
+        }
+
         public DataTable POST_EU_LIST_RZDN_AGR(List<string> listEU, string rzdn, DateTime? TimeOperation = null)
         {
             if (!OracleState)
@@ -742,9 +946,67 @@ procedure DispatchUnit(rzdn_prm_      rzdn.rzdn_prm%type, -- Идент зада
                 //   cmd->Parameters["relmuch_prm_"]->CollectionType = OracleCollectionType::PLSQLAssociativeArray;
             }
 
+            if (OracleState)
+                this.Close();
 
+            return _tblEU;
 
+        }
 
+        public DataTable POST_EU_LIST_RZDN_AGR(List<Relmuch> listEU, string rzdn, DateTime? TimeOperation = null)
+        {
+            if (!OracleState)
+                this.Connect();
+
+            DataTable _tblEU = new DataTable();
+            _tblEU.TableName = "POST_EU_LIST_RZDN_AGR";
+
+            DataColumn colN = new DataColumn("Label", typeof(String));
+            _tblEU.Columns.Add(colN);
+            DataColumn colSource = new DataColumn("result", typeof(String));
+            _tblEU.Columns.Add(colSource);
+
+            DataColumn colCode = new DataColumn("resultCode", typeof(String));
+            _tblEU.Columns.Add(colCode);
+
+            foreach (var e in listEU)
+            {
+                string result = "";
+                string resultCode = "";
+
+                try
+                {
+                    cmd = appConn.CreateCommand();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "CGP1.SetUnitsTask_TSD";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("relmuch_label_", OracleType.NVarChar).Value = e.ToString();
+                    cmd.Parameters.Add("rzdn_prm_", OracleType.NVarChar).Value = rzdn;
+
+                    if ((TimeOperation != DateTime.MinValue) && (TimeOperation != null))
+                        cmd.Parameters.Add("date_event_", OracleType.NVarChar).Value = TimeOperation;
+
+                    cmd.ExecuteNonQuery();
+
+                    result = "";
+                    resultCode = "1";
+
+                }
+
+                catch (Exception ex)
+                {
+                    result = ex.Message;
+                    resultCode = "0";
+
+                }
+                DataRow row1 = _tblEU.NewRow();
+                row1["Label"] = e;
+                row1["result"] = result;
+                row1["resultCode"] = resultCode;
+                _tblEU.Rows.Add(row1);
+                //   cmd->Parameters["relmuch_prm_"]->CollectionType = OracleCollectionType::PLSQLAssociativeArray;
+            }
 
             if (OracleState)
                 this.Close();
@@ -752,6 +1014,7 @@ procedure DispatchUnit(rzdn_prm_      rzdn.rzdn_prm%type, -- Идент зада
             return _tblEU;
 
         }
+
 
         public DataTable POST_EU_LIST_INVERT_MX(List<string> listEU, string rzdn, string MX_LABEL, DateTime? TimeOperation = null)
         {
@@ -820,6 +1083,68 @@ procedure DispatchUnit(rzdn_prm_      rzdn.rzdn_prm%type, -- Идент зада
 
 
 
+            if (OracleState)
+                this.Close();
+
+            return _tblEU;
+
+        }
+
+        public DataTable POST_EU_LIST_INVERT_MX(List<Relmuch> listEU, string rzdn, MXPlace MX_LABEL, DateTime? TimeOperation = null)
+        {
+            if (!OracleState)
+                this.Connect();
+
+            DataTable _tblEU = new DataTable();
+            _tblEU.TableName = "POST_EU_LIST_INVERT_MX";
+
+            DataColumn colN = new DataColumn("Label", typeof(String));
+            _tblEU.Columns.Add(colN);
+            DataColumn colSource = new DataColumn("result", typeof(String));
+            _tblEU.Columns.Add(colSource);
+
+            DataColumn colCode = new DataColumn("resultCode", typeof(String));
+            _tblEU.Columns.Add(colCode);
+
+            foreach (var e in listEU)
+            {
+                string result = "";
+                string resultCode = "";
+
+                try
+                {
+                    cmd = appConn.CreateCommand();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "CGP1.SetInventoryTSD";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("relmuch_label_", OracleType.NVarChar).Value = e.ToString();
+                    cmd.Parameters.Add("tehuz_label_", OracleType.NVarChar).Value = MX_LABEL.ToString();
+                    cmd.Parameters.Add("rzdn_prm_", OracleType.NVarChar).Value = rzdn;
+
+                    if ((TimeOperation != DateTime.MinValue) && (TimeOperation != null))
+                        cmd.Parameters.Add("date_event_", OracleType.NVarChar).Value = TimeOperation;
+
+                    cmd.ExecuteNonQuery();
+
+                    result = "";
+                    resultCode = "1";
+
+                }
+
+                catch (Exception ex)
+                {
+                    result = ex.Message;
+                    resultCode = "0";
+
+                }
+                DataRow row1 = _tblEU.NewRow();
+                row1["Label"] = e;
+                row1["result"] = result;
+                row1["resultCode"] = resultCode;
+                _tblEU.Rows.Add(row1);
+                //   cmd->Parameters["relmuch_prm_"]->CollectionType = OracleCollectionType::PLSQLAssociativeArray;
+            }
             if (OracleState)
                 this.Close();
 

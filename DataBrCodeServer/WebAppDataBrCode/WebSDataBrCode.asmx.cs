@@ -88,6 +88,8 @@ namespace WebAppDataBrCode
         // Receive all SOAP headers other than the MyHeader SOAP header.
         public SoapUnknownHeader[] unknownHeaders;
 
+
+
         public void AddAllLog(string _service, string _message)
         {
             SLogWeb.Add(new LogElem(_service, _message));
@@ -389,6 +391,154 @@ namespace WebAppDataBrCode
                 AddAllLog(t, "POST_EU_LIST_INVERT_MX", "Инвентаризация MX:" + MX_LABEL + ", RZDN: " + RZDN);
             else
                 AddAllLog(t, "POST_EU_LIST_INVERT_MX", "Инвентаризация MX:" + MX_LABEL + ", RZDN: " + RZDN + "; Время: " + TimeOperation.ToString());
+            using (COracle orclCGP = new COracle())
+            {
+                Result = orclCGP.POST_EU_LIST_INVERT_MX(listEU, RZDN, MX_LABEL, TimeOperation);
+            }
+
+            EndUser();
+            return Result;
+        }
+
+
+        //------------Размещение на складе
+        [SoapHeader("brHeader")]
+        //Receive any SOAP headers other than MyHeader.
+        [SoapHeader("unknownHeaders")]
+        [WebMethod(Description = "Размещение ЕУ на МХ")]
+        public DataTable POST_EU_LIST_WAREHOUSE_TYPE(List<Relmuch> listEU, MXPlace Place, DateTime? TimeOperation = null)
+        {
+            DataTable Result = null;
+            InitUser();
+            TInfo t = Identific(brHeader);
+
+            int CountEU = listEU.Count;
+            int CountEuManual = 0;
+            listEU.ForEach(delegate(Relmuch n) { if (n.MANUAL) CountEuManual++; });
+            string message = String.Format("Размещения на: {0}-{1}  ЕУ: {2}-{3};", Place.LABEL, Place.CODEAUTOMATIC, CountEU.ToString(), CountEuManual.ToString());
+            
+            if ((TimeOperation == DateTime.MinValue) || (TimeOperation == null))
+                AddAllLog(t, "POST_EU_LIST_Warehouse", message);
+            else
+                AddAllLog(t, "POST_EU_LIST_Warehouse", message + "; Время: " + TimeOperation.ToString());
+            using (COracle orclCGP = new COracle())
+            {
+                Result = orclCGP.POST_EU_LIST_Warehouse(listEU, Place, TimeOperation);
+            }
+            EndUser();
+            return Result;
+        }
+
+
+        /// <summary>
+        /// Изменим логику, и добавим код автомтизации поперации
+        /// </summary>
+
+        [SoapHeader("brHeader")]
+        //Receive any SOAP headers other than MyHeader.
+        [SoapHeader("unknownHeaders")]
+        [WebMethod(Description = "Задание ЕУ в агрегат списком")]
+        public DataTable POST_EU_IN_AGR_TYPE(List<Relmuch> listEU, MXPlace Agr, DateTime? TimeOperation = null)
+        {//3 and 5
+            DataTable Result = null;
+            InitUser();
+            TInfo t = Identific(brHeader);
+
+            int CountEU = listEU.Count;
+            int CountEuManual = 0;
+            listEU.ForEach(delegate(Relmuch n) { if (n.MANUAL) CountEuManual++; });
+            string message = String.Format("ЕУ в агрегат: {0}-{1} ЕУ: {2}-{3};", Agr.LABEL, Agr.CODEAUTOMATIC, CountEU.ToString(), CountEuManual.ToString());
+            
+            if ((TimeOperation == DateTime.MinValue) || (TimeOperation == null))
+                AddAllLog(t, "POST_EU_IN_AGR", message);
+            else
+                AddAllLog(t, "POST_EU_IN_AGR", message + ";Время: " + TimeOperation.ToString());
+
+            using (COracle orclCGP = new COracle())
+            {
+                Result = orclCGP.POST_EU_IN_AGR(listEU, Agr, TimeOperation);
+            }
+
+            EndUser();
+            return Result;
+        }
+
+        [SoapHeader("brHeader")]
+        //Receive any SOAP headers other than MyHeader.
+        [SoapHeader("unknownHeaders")]
+        [WebMethod(Description = "Отгрузка ЕУ списком")]
+        public DataTable POST_EU_LIST_SHIP_TYPE(List<Relmuch> listEU, string RZDN, DateTime? TimeOperation = null)
+        {
+            DataTable Result = null;
+            InitUser();
+            TInfo t = Identific(brHeader);
+
+            int CountEU = listEU.Count;
+            int CountEuManual = 0;
+            listEU.ForEach(delegate(Relmuch n) { if (n.MANUAL) CountEuManual++; });
+            string message = String.Format("Отгружаем задание: {0} ЕУ: {1}-{2};", RZDN, CountEU.ToString(), CountEuManual.ToString());
+            
+
+            if ((TimeOperation == DateTime.MinValue) || (TimeOperation == null))
+                AddAllLog(t, "POST_EU_LIST_SHIP", message);
+            else
+                AddAllLog(t, "POST_EU_LIST_SHIP", message + "; Время: " + TimeOperation.ToString());
+            using (COracle orclCGP = new COracle())
+            {
+                Result = orclCGP.POST_EU_LIST_SHIP(listEU, RZDN, TimeOperation);
+            }
+
+            EndUser();
+            return Result;
+        }
+
+        [SoapHeader("brHeader")]
+        //Receive any SOAP headers other than MyHeader.
+        [SoapHeader("unknownHeaders")]
+        [WebMethod(Description = "ЕУ по задание в агрегат списком")]
+        public DataTable POST_EU_LIST_RZDN_AGR_TYPE(List<Relmuch> listEU, string RZDN, DateTime? TimeOperation = null)
+        {
+            DataTable Result = null;
+            InitUser();
+            TInfo t = Identific(brHeader);
+
+            int CountEU = listEU.Count;
+            int CountEuManual = 0;
+            listEU.ForEach(delegate(Relmuch n) { if (n.MANUAL) CountEuManual++; });
+            string message = String.Format("Формируем задание из ЕУ, RZDN: {0} ЕУ: {1}-{2};", RZDN, CountEU.ToString(), CountEuManual.ToString());
+            
+            if ((TimeOperation == DateTime.MinValue) || (TimeOperation == null))
+                AddAllLog(t, "POST_EU_LIST_RZDN_AGR", message);
+            else
+                AddAllLog(t, "POST_EU_LIST_RZDN_AGR", message + "; Время: " + TimeOperation.ToString());
+            using (COracle orclCGP = new COracle())
+            {
+                Result = orclCGP.POST_EU_LIST_RZDN_AGR(listEU, RZDN, TimeOperation);
+            }
+
+            EndUser();
+            return Result;
+        }
+
+        [SoapHeader("brHeader")]
+        //Receive any SOAP headers other than MyHeader.
+        [SoapHeader("unknownHeaders")]
+        [WebMethod(Description = "Инвентаризация ЕУ под задание на МХ")]
+        public DataTable POST_EU_LIST_INVERT_MX_TYPE(List<Relmuch> listEU, string RZDN, MXPlace MX_LABEL, DateTime? TimeOperation = null)
+        {
+            DataTable Result = null;
+            InitUser();
+            TInfo t = Identific(brHeader);
+
+            int CountEU = listEU.Count;
+            int CountEuManual = 0;
+            listEU.ForEach(delegate(Relmuch n) { if (n.MANUAL) CountEuManual++; });
+            string message = String.Format("Инвентаризация MX: {0}-{1} ЕУ: {2}-{3}; RZDN: {4}", MX_LABEL.LABEL, MX_LABEL.CODEAUTOMATIC, CountEU.ToString(), CountEuManual.ToString(), RZDN);
+            
+            if ((TimeOperation == DateTime.MinValue) || (TimeOperation == null))
+                AddAllLog(t, "POST_EU_LIST_INVERT_MX", message);
+            else
+                AddAllLog(t, "POST_EU_LIST_INVERT_MX", message + "; Время: " + TimeOperation.ToString());
             using (COracle orclCGP = new COracle())
             {
                 Result = orclCGP.POST_EU_LIST_INVERT_MX(listEU, RZDN, MX_LABEL, TimeOperation);

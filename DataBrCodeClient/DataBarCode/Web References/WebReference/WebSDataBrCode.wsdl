@@ -217,6 +217,139 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="POST_EU_LIST_WAREHOUSE_TYPE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="listEU" type="tns:ArrayOfRelmuch" />
+            <s:element minOccurs="0" maxOccurs="1" name="Place" type="tns:MXPlace" />
+            <s:element minOccurs="1" maxOccurs="1" name="TimeOperation" nillable="true" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRelmuch">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Relmuch" nillable="true" type="tns:Relmuch" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Relmuch">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="LABEL" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CODEAUTOMATIC" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MXPlace">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="LABEL" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CODEAUTOMATIC" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="POST_EU_LIST_WAREHOUSE_TYPEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="POST_EU_LIST_WAREHOUSE_TYPEResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="POST_EU_IN_AGR_TYPE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="listEU" type="tns:ArrayOfRelmuch" />
+            <s:element minOccurs="0" maxOccurs="1" name="Agr" type="tns:MXPlace" />
+            <s:element minOccurs="1" maxOccurs="1" name="TimeOperation" nillable="true" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="POST_EU_IN_AGR_TYPEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="POST_EU_IN_AGR_TYPEResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="POST_EU_LIST_SHIP_TYPE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="listEU" type="tns:ArrayOfRelmuch" />
+            <s:element minOccurs="0" maxOccurs="1" name="RZDN" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TimeOperation" nillable="true" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="POST_EU_LIST_SHIP_TYPEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="POST_EU_LIST_SHIP_TYPEResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="POST_EU_LIST_RZDN_AGR_TYPE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="listEU" type="tns:ArrayOfRelmuch" />
+            <s:element minOccurs="0" maxOccurs="1" name="RZDN" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TimeOperation" nillable="true" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="POST_EU_LIST_RZDN_AGR_TYPEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="POST_EU_LIST_RZDN_AGR_TYPEResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="POST_EU_LIST_INVERT_MX_TYPE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="listEU" type="tns:ArrayOfRelmuch" />
+            <s:element minOccurs="0" maxOccurs="1" name="RZDN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MX_LABEL" type="tns:MXPlace" />
+            <s:element minOccurs="1" maxOccurs="1" name="TimeOperation" nillable="true" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="POST_EU_LIST_INVERT_MX_TYPEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="POST_EU_LIST_INVERT_MX_TYPEResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetLogTSD">
         <s:complexType />
       </s:element>
@@ -416,6 +549,51 @@
   <wsdl:message name="POST_EU_LIST_INVERT_MXBrHeader">
     <wsdl:part name="BrHeader" element="tns:BrHeader" />
   </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_WAREHOUSE_TYPESoapIn">
+    <wsdl:part name="parameters" element="tns:POST_EU_LIST_WAREHOUSE_TYPE" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_WAREHOUSE_TYPESoapOut">
+    <wsdl:part name="parameters" element="tns:POST_EU_LIST_WAREHOUSE_TYPEResponse" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_WAREHOUSE_TYPEBrHeader">
+    <wsdl:part name="BrHeader" element="tns:BrHeader" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_IN_AGR_TYPESoapIn">
+    <wsdl:part name="parameters" element="tns:POST_EU_IN_AGR_TYPE" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_IN_AGR_TYPESoapOut">
+    <wsdl:part name="parameters" element="tns:POST_EU_IN_AGR_TYPEResponse" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_IN_AGR_TYPEBrHeader">
+    <wsdl:part name="BrHeader" element="tns:BrHeader" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_SHIP_TYPESoapIn">
+    <wsdl:part name="parameters" element="tns:POST_EU_LIST_SHIP_TYPE" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_SHIP_TYPESoapOut">
+    <wsdl:part name="parameters" element="tns:POST_EU_LIST_SHIP_TYPEResponse" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_SHIP_TYPEBrHeader">
+    <wsdl:part name="BrHeader" element="tns:BrHeader" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_RZDN_AGR_TYPESoapIn">
+    <wsdl:part name="parameters" element="tns:POST_EU_LIST_RZDN_AGR_TYPE" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_RZDN_AGR_TYPESoapOut">
+    <wsdl:part name="parameters" element="tns:POST_EU_LIST_RZDN_AGR_TYPEResponse" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_RZDN_AGR_TYPEBrHeader">
+    <wsdl:part name="BrHeader" element="tns:BrHeader" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_INVERT_MX_TYPESoapIn">
+    <wsdl:part name="parameters" element="tns:POST_EU_LIST_INVERT_MX_TYPE" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_INVERT_MX_TYPESoapOut">
+    <wsdl:part name="parameters" element="tns:POST_EU_LIST_INVERT_MX_TYPEResponse" />
+  </wsdl:message>
+  <wsdl:message name="POST_EU_LIST_INVERT_MX_TYPEBrHeader">
+    <wsdl:part name="BrHeader" element="tns:BrHeader" />
+  </wsdl:message>
   <wsdl:message name="GetLogTSDSoapIn">
     <wsdl:part name="parameters" element="tns:GetLogTSD" />
   </wsdl:message>
@@ -534,6 +712,31 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Инвентаризация ЕУ под задание на МХ</wsdl:documentation>
       <wsdl:input message="tns:POST_EU_LIST_INVERT_MXSoapIn" />
       <wsdl:output message="tns:POST_EU_LIST_INVERT_MXSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_WAREHOUSE_TYPE">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Размещение ЕУ на МХ</wsdl:documentation>
+      <wsdl:input message="tns:POST_EU_LIST_WAREHOUSE_TYPESoapIn" />
+      <wsdl:output message="tns:POST_EU_LIST_WAREHOUSE_TYPESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_IN_AGR_TYPE">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Задание ЕУ в агрегат списком</wsdl:documentation>
+      <wsdl:input message="tns:POST_EU_IN_AGR_TYPESoapIn" />
+      <wsdl:output message="tns:POST_EU_IN_AGR_TYPESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_SHIP_TYPE">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Отгрузка ЕУ списком</wsdl:documentation>
+      <wsdl:input message="tns:POST_EU_LIST_SHIP_TYPESoapIn" />
+      <wsdl:output message="tns:POST_EU_LIST_SHIP_TYPESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_RZDN_AGR_TYPE">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ЕУ по задание в агрегат списком</wsdl:documentation>
+      <wsdl:input message="tns:POST_EU_LIST_RZDN_AGR_TYPESoapIn" />
+      <wsdl:output message="tns:POST_EU_LIST_RZDN_AGR_TYPESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_INVERT_MX_TYPE">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Инвентаризация ЕУ под задание на МХ</wsdl:documentation>
+      <wsdl:input message="tns:POST_EU_LIST_INVERT_MX_TYPESoapIn" />
+      <wsdl:output message="tns:POST_EU_LIST_INVERT_MX_TYPESoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetLogTSD">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получение логов web service</wsdl:documentation>
@@ -682,6 +885,56 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:POST_EU_LIST_INVERT_MXBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_WAREHOUSE_TYPE">
+      <soap:operation soapAction="WebSDataBrCode/POST_EU_LIST_WAREHOUSE_TYPE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:POST_EU_LIST_WAREHOUSE_TYPEBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_IN_AGR_TYPE">
+      <soap:operation soapAction="WebSDataBrCode/POST_EU_IN_AGR_TYPE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:POST_EU_IN_AGR_TYPEBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_SHIP_TYPE">
+      <soap:operation soapAction="WebSDataBrCode/POST_EU_LIST_SHIP_TYPE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:POST_EU_LIST_SHIP_TYPEBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_RZDN_AGR_TYPE">
+      <soap:operation soapAction="WebSDataBrCode/POST_EU_LIST_RZDN_AGR_TYPE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:POST_EU_LIST_RZDN_AGR_TYPEBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_INVERT_MX_TYPE">
+      <soap:operation soapAction="WebSDataBrCode/POST_EU_LIST_INVERT_MX_TYPE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:POST_EU_LIST_INVERT_MX_TYPEBrHeader" part="BrHeader" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -872,6 +1125,56 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:POST_EU_LIST_INVERT_MXBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_WAREHOUSE_TYPE">
+      <soap12:operation soapAction="WebSDataBrCode/POST_EU_LIST_WAREHOUSE_TYPE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:POST_EU_LIST_WAREHOUSE_TYPEBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_IN_AGR_TYPE">
+      <soap12:operation soapAction="WebSDataBrCode/POST_EU_IN_AGR_TYPE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:POST_EU_IN_AGR_TYPEBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_SHIP_TYPE">
+      <soap12:operation soapAction="WebSDataBrCode/POST_EU_LIST_SHIP_TYPE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:POST_EU_LIST_SHIP_TYPEBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_RZDN_AGR_TYPE">
+      <soap12:operation soapAction="WebSDataBrCode/POST_EU_LIST_RZDN_AGR_TYPE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:POST_EU_LIST_RZDN_AGR_TYPEBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="POST_EU_LIST_INVERT_MX_TYPE">
+      <soap12:operation soapAction="WebSDataBrCode/POST_EU_LIST_INVERT_MX_TYPE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:POST_EU_LIST_INVERT_MX_TYPEBrHeader" part="BrHeader" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

@@ -20,23 +20,25 @@ namespace DataBarCode
         public Intermec.DataCollection.BarcodeReader bcr;
         public string LabelEU;
         public string labelPlace;
+        private WebReference.MXPlace CMxPlace;
         public DataTable _tblEU;
         Settings set;
         public bool FormActive;
-        public List<string> listEU = null;
+        public List<WebReference.Relmuch> listEU = null;
+       
         public ListScanOperation ScanOperation;
         public string SETRZDN { get; set; }
         // public BarcodeReadEventHandler _returnFunc;
         public bool OperationComplete = false;
 
-        public WarehousePost(Intermec.DataCollection.BarcodeReader _bcr, string LabelPlace, ListScanOperation _ScanOperation)
+        public WarehousePost(Intermec.DataCollection.BarcodeReader _bcr, string LabelPlace, ListScanOperation _ScanOperation, int MxCodeAutomation)
         {
             InitializeComponent();
             FormActive = true;
             set = new Settings("DataBrCode.xml");
 
             ScanOperation = _ScanOperation;
-            listEU = new List<string>();
+            listEU = new List<WebReference.Relmuch>();
 
             bcr = _bcr;
 
@@ -58,7 +60,9 @@ namespace DataBarCode
             //labelMXMore.Text = getValueDataTableColumnRow(_TblWarehouse, "TEHUZ_LABEL", LabelPlace, "TEHUZ_NAME");
             labelMXMore.Text = SqlLiteQuery.GetNameMX(LabelPlace);
 
-
+            CMxPlace = new DataBarCode.WebReference.MXPlace();
+            CMxPlace.LABEL = LabelPlace;
+            CMxPlace.CODEAUTOMATIC = MxCodeAutomation;
 
 
             //Тут правим лейбл
@@ -271,7 +275,7 @@ namespace DataBarCode
                 }
 
                 //Проверим есть ли данная ЕУ в списке
-                if (ValidateList.CheckEUByList(listEU, LabelEU))
+                if (ValidateList.CheckEUByListType(listEU, LabelEU))
                 {
                     //ЕУ уже в списке
                     Sound.PlaySoundWarning();
@@ -285,7 +289,7 @@ namespace DataBarCode
                 {
                     case ListScanOperation.EuInAgr:
                         {
-                            CleanCommitEU();
+                            CleanCommitEU(5);
                             break;
                         }
                     default:
@@ -334,7 +338,11 @@ namespace DataBarCode
                 }
                 _tblEU.Rows.InsertAt(row1, 0);
 
-                listEU.Add(EU);
+                WebReference.Relmuch EUT = new WebReference.Relmuch();
+                EUT.LABEL = EU;
+                EUT.CODEAUTOMATIC = 5;
+                listEU.Add(EUT);
+
                 labelCountScan.BeginInvoke(new Action(() =>
                 {
                     labelCountScan.Text = listEU.Count.ToString();
@@ -362,7 +370,7 @@ namespace DataBarCode
             else return "Нет данных";
         }
 
-        private void CleanCommitEU()
+        private void CleanCommitEU(int CodeAutomcatic)
         {
             //Проверем была ли нажата кнопка
             if (!OperationComplete)
@@ -370,7 +378,7 @@ namespace DataBarCode
             OperationComplete = false;
             try
             {
-                listEU = new List<string>();
+                listEU = new List<WebReference.Relmuch>();
                 //Удаляем все УЕ которые отправиль в БД.
                 //Создадим новую таблицу и добавим в новую.
                 DataTable TmpTbl = InitTable();
@@ -379,7 +387,12 @@ namespace DataBarCode
                     if ((_tblEU.Rows[i]["Commit"].ToString() == "0") || (_tblEU.Rows[i]["Commit"].ToString() == "-1"))
                     {
                         TmpTbl.ImportRow(_tblEU.Rows[i]);
-                        listEU.Add(_tblEU.Rows[i]["Label"].ToString());
+
+                        WebReference.Relmuch EUT = new WebReference.Relmuch();
+                        EUT.LABEL = _tblEU.Rows[i]["Label"].ToString();
+                        EUT.CODEAUTOMATIC = CodeAutomcatic;
+                        listEU.Add(EUT);
+
                         break;
                     }
                 }
@@ -436,7 +449,7 @@ namespace DataBarCode
                         _tblEU.Rows[ii]["Commit"] = "-1";
                     }
 
-                    DataTable result = BrServer.POST_EU_LIST_Warehouse(listEU.ToArray(), labelPlace, null);
+                    DataTable result = BrServer.POST_EU_LIST_WAREHOUSE_TYPE(listEU.ToArray(), CMxPlace, null);
 
                     // dataGridEu.BackColor = Color.MediumAquamarine;
                     OpenNETCF.Media.SystemSounds.Beep.Play();
@@ -481,7 +494,7 @@ namespace DataBarCode
                     BufferToBD.ModeNetTerminalB = false;
                     CLog.WriteException("WarehousePost.cs", "buttonNext_Click_1", ex.ToString());
                     //Отправляем в буфер
-                    BufferOper_POST_EU_LIST_Warehouse Oper = new BufferOper_POST_EU_LIST_Warehouse(labelPlace, listEU.ToArray());
+                    BufferOper_POST_EU_LIST_Warehouse Oper = new BufferOper_POST_EU_LIST_Warehouse(CMxPlace, listEU.ToArray());
                     BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_LIST_Warehouse, Oper));
                     OpenNETCF.Media.SystemSounds.Beep.Play();
                     Thread.Sleep(100);
@@ -507,7 +520,7 @@ namespace DataBarCode
                     BufferToBD.ModeNetTerminalB = false;
                     CLog.WriteException("WarehousePost.cs", "buttonNext_Click_1", ex.ToString());
                     //Отправляем в буфер
-                    BufferOper_POST_EU_LIST_Warehouse Oper = new BufferOper_POST_EU_LIST_Warehouse(labelPlace, listEU.ToArray());
+                    BufferOper_POST_EU_LIST_Warehouse Oper = new BufferOper_POST_EU_LIST_Warehouse(CMxPlace, listEU.ToArray());
                     BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_LIST_Warehouse, Oper));
                     OpenNETCF.Media.SystemSounds.Beep.Play();
                     Thread.Sleep(100);
@@ -527,7 +540,7 @@ namespace DataBarCode
             }
             else
             {//Если мы в Офлайне
-                BufferOper_POST_EU_LIST_Warehouse Oper = new BufferOper_POST_EU_LIST_Warehouse(labelPlace, listEU.ToArray());
+                BufferOper_POST_EU_LIST_Warehouse Oper = new BufferOper_POST_EU_LIST_Warehouse(CMxPlace, listEU.ToArray());
                 BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_LIST_Warehouse, Oper));
 
                 dataGridEu.BackColor = Color.LemonChiffon;
@@ -552,111 +565,7 @@ namespace DataBarCode
 
         private void TaskMove()
         {
-
-            WebReference.WebSDataBrCode BrServer = new WebReference.WebSDataBrCode();
-            BrServer.SoapVersion = System.Web.Services.Protocols.SoapProtocolVersion.Soap12;
-            BrServer.Url = set.AdressAppServer;
-            BrServer.Credentials = new NetworkCredential(CBrHeader.Login, CBrHeader.Password);
-            BrServer.BrHeaderValue = CBrHeader.GetHeader();
-            if (BufferToBD.ModeNetTerminalB)
-            {//Если мы в Онлайне
-                try
-                {
-                    DataTable result = BrServer.POST_EU_TASK_MOVE(listEU.ToArray(), labelPlace, null);
-
-                    dataGridEu.BackColor = Color.MediumAquamarine;
-                    OpenNETCF.Media.SystemSounds.Beep.Play();
-
-                    //Меняем статус на нужный 
-                    for (int ii = 0; ii < _tblEU.Rows.Count; ii++)
-                    {
-                        _tblEU.Rows[ii]["Commit"] = "1";
-                    }
-
-                    dataGridEu.BeginInvoke(new Action(() =>
-                    {
-                        dataGridEu.DataSource = _tblEU;
-                    }));
-                }
-
-                catch (System.Net.WebException ex)
-                {
-                    dataGridEu.BackColor = Color.LemonChiffon;
-
-                    BufferToBD.ModeNetTerminalB = false;
-                    CLog.WriteException("WarehousePost.cs", "TaskMove", ex.ToString());
-                    //Отправляем в буфер
-                    BufferOper_POST_EU_LIST_TASKMOVE Oper = new BufferOper_POST_EU_LIST_TASKMOVE(labelPlace, listEU.ToArray());
-                    BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_LIST_TASKMOVE, Oper));
-                    OpenNETCF.Media.SystemSounds.Beep.Play();
-                    Thread.Sleep(100);
-                    OpenNETCF.Media.SystemSounds.Beep.Play();
-
-
-                    //Меняем статус на нужный 
-                    for (int ii = 0; ii < _tblEU.Rows.Count; ii++)
-                    {
-                        _tblEU.Rows[ii]["Commit"] = "3";
-                    }
-
-                    dataGridEu.BeginInvoke(new Action(() =>
-                    {
-                        dataGridEu.DataSource = _tblEU;
-                    }));
-                }
-
-                catch (System.Net.Sockets.SocketException ex)
-                {//На случай если во время выполнения сломается связть 
-
-                    dataGridEu.BackColor = Color.LemonChiffon;
-
-                    BufferToBD.ModeNetTerminalB = false;
-                    CLog.WriteException("WarehousePost.cs", "TaskMove", ex.ToString());
-                    //Отправляем в буфер
-                    BufferOper_POST_EU_LIST_TASKMOVE Oper = new BufferOper_POST_EU_LIST_TASKMOVE(labelPlace, listEU.ToArray());
-                    BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_LIST_TASKMOVE, Oper));
-                    OpenNETCF.Media.SystemSounds.Beep.Play();
-                    Thread.Sleep(100);
-                    OpenNETCF.Media.SystemSounds.Beep.Play();
-
-
-                    //Меняем статус на нужный 
-                    for (int ii = 0; ii < _tblEU.Rows.Count; ii++)
-                    {
-                        _tblEU.Rows[ii]["Commit"] = "3";
-                    }
-
-                    dataGridEu.BeginInvoke(new Action(() =>
-                    {
-                        dataGridEu.DataSource = _tblEU;
-                    }));
-
-                }
-            }
-            else
-            {//Если мы в Офлайне
-                BufferOper_POST_EU_LIST_TASKMOVE Oper = new BufferOper_POST_EU_LIST_TASKMOVE(labelPlace, listEU.ToArray());
-                BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_LIST_TASKMOVE, Oper));
-
-                dataGridEu.BackColor = Color.LemonChiffon;
-                OpenNETCF.Media.SystemSounds.Beep.Play();
-                Thread.Sleep(100);
-                OpenNETCF.Media.SystemSounds.Beep.Play();
-
-
-                //Меняем статус на нужный 
-                for (int ii = 0; ii < _tblEU.Rows.Count; ii++)
-                {
-                    _tblEU.Rows[ii]["Commit"] = "3";
-                }
-
-                dataGridEu.BeginInvoke(new Action(() =>
-                {
-                    dataGridEu.DataSource = _tblEU;
-                }));
-
-            }
-
+            //Операция не используется
         }
 
 
@@ -672,7 +581,7 @@ namespace DataBarCode
             {//Если мы в Онлайне
                 try
                 {
-                    DataTable result = BrServer.POST_EU_IN_AGR(listEU.ToArray(), labelPlace, null);
+                    DataTable result = BrServer.POST_EU_IN_AGR_TYPE(listEU.ToArray(), CMxPlace, null);
 
                     dataGridEu.BackColor = Color.MediumAquamarine;
                     OpenNETCF.Media.SystemSounds.Beep.Play();
@@ -697,7 +606,7 @@ namespace DataBarCode
                     BufferToBD.ModeNetTerminalB = false;
                     CLog.WriteException("WarehousePost.cs", "EUInAgr", ex.ToString());
                     //Отправляем в буфер
-                    BufferOper_POST_EU_IN_AGR Oper = new BufferOper_POST_EU_IN_AGR(labelPlace, listEU.ToArray());
+                    BufferOper_POST_EU_IN_AGR Oper = new BufferOper_POST_EU_IN_AGR(CMxPlace, listEU.ToArray());
                     BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_IN_AGR, Oper));
                     OpenNETCF.Media.SystemSounds.Beep.Play();
                     Thread.Sleep(100);
@@ -724,7 +633,7 @@ namespace DataBarCode
                     BufferToBD.ModeNetTerminalB = false;
                     CLog.WriteException("WarehousePost.cs", "TaskMove", ex.ToString());
                     //Отправляем в буфер
-                    BufferOper_POST_EU_IN_AGR Oper = new BufferOper_POST_EU_IN_AGR(labelPlace, listEU.ToArray());
+                    BufferOper_POST_EU_IN_AGR Oper = new BufferOper_POST_EU_IN_AGR(CMxPlace, listEU.ToArray());
                     BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_IN_AGR, Oper));
                     OpenNETCF.Media.SystemSounds.Beep.Play();
                     Thread.Sleep(100);
@@ -746,7 +655,7 @@ namespace DataBarCode
             }
             else
             {//Если мы в Офлайне
-                BufferOper_POST_EU_IN_AGR Oper = new BufferOper_POST_EU_IN_AGR(labelPlace, listEU.ToArray());
+                BufferOper_POST_EU_IN_AGR Oper = new BufferOper_POST_EU_IN_AGR(CMxPlace, listEU.ToArray());
                 BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_IN_AGR, Oper));
 
                 dataGridEu.BackColor = Color.LemonChiffon;
@@ -787,7 +696,7 @@ namespace DataBarCode
                         _tblEU.Rows[ii]["Commit"] = "-1";
                     }
 
-                    DataTable result = BrServer.POST_EU_LIST_INVERT_MX(listEU.ToArray(), this.SETRZDN, labelPlace, null);
+                    DataTable result = BrServer.POST_EU_LIST_INVERT_MX_TYPE(listEU.ToArray(), this.SETRZDN, CMxPlace, null);
                     OpenNETCF.Media.SystemSounds.Beep.Play();
 
                     ////Далее нужен алгоритм обработки ответа
@@ -828,7 +737,7 @@ namespace DataBarCode
                     BufferToBD.ModeNetTerminalB = false;
                     CLog.WriteException("WarehousePost.cs", "InventorySet", ex.ToString());
                     //Отправляем в буфер
-                    BufferOper_POST_EU_LIST_INVERT_MX Oper = new BufferOper_POST_EU_LIST_INVERT_MX(labelPlace, this.SETRZDN, listEU.ToArray());
+                    BufferOper_POST_EU_LIST_INVERT_MX Oper = new BufferOper_POST_EU_LIST_INVERT_MX(CMxPlace, this.SETRZDN, listEU.ToArray());
                     BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_LIST_INVERT_MX, Oper));
                     OpenNETCF.Media.SystemSounds.Beep.Play();
                     Thread.Sleep(100);
@@ -853,7 +762,7 @@ namespace DataBarCode
                     BufferToBD.ModeNetTerminalB = false;
                     CLog.WriteException("WarehousePost.cs", "TaskMove", ex.ToString());
                     //Отправляем в буфер
-                    BufferOper_POST_EU_LIST_INVERT_MX Oper = new BufferOper_POST_EU_LIST_INVERT_MX(labelPlace, this.SETRZDN, listEU.ToArray());
+                    BufferOper_POST_EU_LIST_INVERT_MX Oper = new BufferOper_POST_EU_LIST_INVERT_MX(CMxPlace, this.SETRZDN, listEU.ToArray());
                     BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_LIST_INVERT_MX, Oper));
                     OpenNETCF.Media.SystemSounds.Beep.Play();
                     Thread.Sleep(100);
@@ -873,7 +782,7 @@ namespace DataBarCode
             }
             else
             {//Если мы в Офлайне
-                BufferOper_POST_EU_LIST_INVERT_MX Oper = new BufferOper_POST_EU_LIST_INVERT_MX(labelPlace, this.SETRZDN, listEU.ToArray());
+                BufferOper_POST_EU_LIST_INVERT_MX Oper = new BufferOper_POST_EU_LIST_INVERT_MX(CMxPlace, this.SETRZDN, listEU.ToArray());
                 BufferToBD.BufferAdd(new BufferOperation(TypeClassBuffer.POST_EU_LIST_INVERT_MX, Oper));
 
                 dataGridEu.BackColor = Color.LemonChiffon;
@@ -1002,7 +911,7 @@ namespace DataBarCode
                         {
                             case ListScanOperation.EuInAgr:
                                 {
-                                    CleanCommitEU();
+                                    CleanCommitEU(3);
                                     break;
                                 }
                             default:
@@ -1016,7 +925,7 @@ namespace DataBarCode
                             foreach (var elem in SelList) 
                             {
                                 //Проверим есть ли данная ЕУ в списке
-                                if (ValidateList.CheckEUByList(listEU, elem.Label))
+                                if (ValidateList.CheckEUByListType(listEU, elem.Label))
                                 {
                                     //ЕУ уже в списке
                                     Sound.PlaySoundWarning();
@@ -1032,7 +941,11 @@ namespace DataBarCode
                                     row1["Размер"] = elem.Razmer;
                                     row1["Commit"] = "-1";
                                     _tblEU.Rows.InsertAt(row1, 0);
-                                    listEU.Add(elem.Label);
+
+                                    WebReference.Relmuch EUT = new WebReference.Relmuch();
+                                    EUT.LABEL = elem.Label;
+                                    EUT.CODEAUTOMATIC = 3;
+                                    listEU.Add(EUT);
                                 }
                             }
                         }
@@ -1087,7 +1000,7 @@ namespace DataBarCode
                         foreach (var elem in SelList)
                         {
                             //Проверим есть ли данная ЕУ в списке
-                            if (ValidateList.CheckEUByList(listEU, elem.Label))
+                            if (ValidateList.CheckEUByListType(listEU, elem.Label))
                             {
                                 //ЕУ уже в списке
                                 Sound.PlaySoundWarning();
@@ -1103,7 +1016,11 @@ namespace DataBarCode
                                 row1["Размер"] = elem.Razmer;
                                 row1["Commit"] = "-1";
                                 _tblEU.Rows.InsertAt(row1, 0);
-                                listEU.Add(elem.Label);
+
+                                WebReference.Relmuch EUT = new WebReference.Relmuch();
+                                EUT.LABEL = elem.Label;
+                                EUT.CODEAUTOMATIC = 3;
+                                listEU.Add(EUT);
                             }
                         }
                     }

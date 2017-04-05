@@ -299,6 +299,133 @@ namespace DataBarCode.WebReference {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("BrHeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("WebSDataBrCode/POST_EU_LIST_WAREHOUSE_TYPE", RequestNamespace="WebSDataBrCode", ResponseNamespace="WebSDataBrCode", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataTable POST_EU_LIST_WAREHOUSE_TYPE(Relmuch[] listEU, MXPlace Place, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> TimeOperation) {
+            object[] results = this.Invoke("POST_EU_LIST_WAREHOUSE_TYPE", new object[] {
+                        listEU,
+                        Place,
+                        TimeOperation});
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginPOST_EU_LIST_WAREHOUSE_TYPE(Relmuch[] listEU, MXPlace Place, System.Nullable<System.DateTime> TimeOperation, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("POST_EU_LIST_WAREHOUSE_TYPE", new object[] {
+                        listEU,
+                        Place,
+                        TimeOperation}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataTable EndPOST_EU_LIST_WAREHOUSE_TYPE(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("BrHeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("WebSDataBrCode/POST_EU_IN_AGR_TYPE", RequestNamespace="WebSDataBrCode", ResponseNamespace="WebSDataBrCode", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataTable POST_EU_IN_AGR_TYPE(Relmuch[] listEU, MXPlace Agr, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> TimeOperation) {
+            object[] results = this.Invoke("POST_EU_IN_AGR_TYPE", new object[] {
+                        listEU,
+                        Agr,
+                        TimeOperation});
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginPOST_EU_IN_AGR_TYPE(Relmuch[] listEU, MXPlace Agr, System.Nullable<System.DateTime> TimeOperation, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("POST_EU_IN_AGR_TYPE", new object[] {
+                        listEU,
+                        Agr,
+                        TimeOperation}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataTable EndPOST_EU_IN_AGR_TYPE(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("BrHeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("WebSDataBrCode/POST_EU_LIST_SHIP_TYPE", RequestNamespace="WebSDataBrCode", ResponseNamespace="WebSDataBrCode", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataTable POST_EU_LIST_SHIP_TYPE(Relmuch[] listEU, string RZDN, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> TimeOperation) {
+            object[] results = this.Invoke("POST_EU_LIST_SHIP_TYPE", new object[] {
+                        listEU,
+                        RZDN,
+                        TimeOperation});
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginPOST_EU_LIST_SHIP_TYPE(Relmuch[] listEU, string RZDN, System.Nullable<System.DateTime> TimeOperation, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("POST_EU_LIST_SHIP_TYPE", new object[] {
+                        listEU,
+                        RZDN,
+                        TimeOperation}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataTable EndPOST_EU_LIST_SHIP_TYPE(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("BrHeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("WebSDataBrCode/POST_EU_LIST_RZDN_AGR_TYPE", RequestNamespace="WebSDataBrCode", ResponseNamespace="WebSDataBrCode", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataTable POST_EU_LIST_RZDN_AGR_TYPE(Relmuch[] listEU, string RZDN, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> TimeOperation) {
+            object[] results = this.Invoke("POST_EU_LIST_RZDN_AGR_TYPE", new object[] {
+                        listEU,
+                        RZDN,
+                        TimeOperation});
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginPOST_EU_LIST_RZDN_AGR_TYPE(Relmuch[] listEU, string RZDN, System.Nullable<System.DateTime> TimeOperation, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("POST_EU_LIST_RZDN_AGR_TYPE", new object[] {
+                        listEU,
+                        RZDN,
+                        TimeOperation}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataTable EndPOST_EU_LIST_RZDN_AGR_TYPE(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("BrHeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("WebSDataBrCode/POST_EU_LIST_INVERT_MX_TYPE", RequestNamespace="WebSDataBrCode", ResponseNamespace="WebSDataBrCode", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataTable POST_EU_LIST_INVERT_MX_TYPE(Relmuch[] listEU, string RZDN, MXPlace MX_LABEL, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> TimeOperation) {
+            object[] results = this.Invoke("POST_EU_LIST_INVERT_MX_TYPE", new object[] {
+                        listEU,
+                        RZDN,
+                        MX_LABEL,
+                        TimeOperation});
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginPOST_EU_LIST_INVERT_MX_TYPE(Relmuch[] listEU, string RZDN, MXPlace MX_LABEL, System.Nullable<System.DateTime> TimeOperation, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("POST_EU_LIST_INVERT_MX_TYPE", new object[] {
+                        listEU,
+                        RZDN,
+                        MX_LABEL,
+                        TimeOperation}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public System.Data.DataTable EndPOST_EU_LIST_INVERT_MX_TYPE(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("WebSDataBrCode/GetLogTSD", RequestNamespace="WebSDataBrCode", ResponseNamespace="WebSDataBrCode", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataTable GetLogTSD() {
             object[] results = this.Invoke("GetLogTSD", new object[0]);
@@ -529,6 +656,68 @@ namespace DataBarCode.WebReference {
             }
             set {
                 this.anyAttrField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="WebSDataBrCode")]
+    public partial class MXPlace {
+        
+        private string lABELField;
+        
+        private int cODEAUTOMATICField;
+        
+        /// <remarks/>
+        public string LABEL {
+            get {
+                return this.lABELField;
+            }
+            set {
+                this.lABELField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int CODEAUTOMATIC {
+            get {
+                return this.cODEAUTOMATICField;
+            }
+            set {
+                this.cODEAUTOMATICField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="WebSDataBrCode")]
+    public partial class Relmuch {
+        
+        private string lABELField;
+        
+        private int cODEAUTOMATICField;
+        
+        /// <remarks/>
+        public string LABEL {
+            get {
+                return this.lABELField;
+            }
+            set {
+                this.lABELField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int CODEAUTOMATIC {
+            get {
+                return this.cODEAUTOMATICField;
+            }
+            set {
+                this.cODEAUTOMATICField = value;
             }
         }
     }

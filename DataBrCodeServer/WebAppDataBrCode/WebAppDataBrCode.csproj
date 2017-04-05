@@ -94,6 +94,7 @@
     <Compile Include="CLog.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common.cs" />
     <Compile Include="COracle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SLogWeb.cs" />

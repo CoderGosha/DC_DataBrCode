@@ -17,5 +17,23 @@ namespace DataBarCode
             else return true;
            
         }
+
+        public static bool CheckEUByListType(List<WebReference.Relmuch> EUInTAble, string EUScan)
+        {//Проверяем есть ли данная ЕУ в списке
+            if (EUInTAble == null)
+                return false;
+
+            bool find = false;
+            foreach (var elem in EUInTAble)
+            {
+                if (elem.LABEL == EUScan)
+                {
+                    find = true;
+                    break;
+                }
+            }
+            return find;
+
+        }
     }
 }

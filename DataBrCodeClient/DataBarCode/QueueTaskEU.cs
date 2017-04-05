@@ -22,7 +22,7 @@ namespace DataBarCode
         Settings set;
         public DataTable _tblEU;
         public Intermec.DataCollection.BarcodeReader bcr;
-        public List<string> listEU = null;
+        public List<WebReference.Relmuch> listEU = null;
         public string MarkaRZDN = "-";
         public List<string> MarkaRZDNList = null;
         public double ScanWeigth = 0;
@@ -34,7 +34,7 @@ namespace DataBarCode
             set = new Settings("DataBrCode.xml");
 
             //  ScanOperation = _ScanOperation;
-            listEU = new List<string>();
+            listEU = new List<WebReference.Relmuch>();
 
             bcr = _bcr;
 
@@ -168,7 +168,7 @@ namespace DataBarCode
 
 
                 //Проверим есть ли данная ЕУ в списке
-                if (ValidateList.CheckEUByList(listEU, LabelEU))
+                if (ValidateList.CheckEUByListType(listEU, LabelEU))
                 {
                     //ЕУ уже в списке
                     Sound.PlaySoundWarning();
@@ -254,14 +254,22 @@ namespace DataBarCode
                 {
                     ScanWeigth -= WEIGHT_EU;
                     _tblEU.Rows.Add(row1);
-                    listEU.Add(EU);
+
+                    WebReference.Relmuch EUT = new WebReference.Relmuch();
+                    EUT.LABEL = EU;
+                    EUT.CODEAUTOMATIC = 5;
+                    listEU.Add(EUT);
                 }
                 else if  (MarkaRZDNList.IndexOf(MarkaEU.ToUpper()) != -1)
                 { 
                     //вкошмарим поиск
                     ScanWeigth -= WEIGHT_EU;
                     _tblEU.Rows.Add(row1);
-                    listEU.Add(EU);
+
+                    WebReference.Relmuch EUT = new WebReference.Relmuch();
+                    EUT.LABEL = EU;
+                    EUT.CODEAUTOMATIC = 5;
+                    listEU.Add(EUT);
                 }
                 else
                 {
@@ -321,7 +329,7 @@ namespace DataBarCode
                         foreach (var elem in SelList)
                         {
                             //Проверим есть ли данная ЕУ в списке
-                            if (ValidateList.CheckEUByList(listEU, elem.Label))
+                            if (ValidateList.CheckEUByListType(listEU, elem.Label))
                             {
                                 //ЕУ уже в списке
                                 Sound.PlaySoundWarning();
@@ -341,7 +349,11 @@ namespace DataBarCode
 
                                 ScanWeigth -= WEIGHT_EU;
                                 _tblEU.Rows.InsertAt(row1, 0);
-                                listEU.Add(elem.Label);
+
+                                WebReference.Relmuch EUT = new WebReference.Relmuch();
+                                EUT.LABEL = elem.Label;
+                                EUT.CODEAUTOMATIC = 3;
+                                listEU.Add(EUT);
                             }
                         }
                     }
@@ -396,7 +408,7 @@ namespace DataBarCode
                             foreach (var elem in SelList)
                             {
                                  //Проверим есть ли данная ЕУ в списке
-                                if (ValidateList.CheckEUByList(listEU, elem.Label))
+                                if (ValidateList.CheckEUByListType(listEU, elem.Label))
                                 {
                                     //ЕУ уже в списке
                                     Sound.PlaySoundWarning();
@@ -416,7 +428,11 @@ namespace DataBarCode
 
                                     ScanWeigth -= WEIGHT_EU;
                                     _tblEU.Rows.InsertAt(row1, 0);
-                                    listEU.Add(elem.Label);
+
+                                    WebReference.Relmuch EUT = new WebReference.Relmuch();
+                                    EUT.LABEL = elem.Label;
+                                    EUT.CODEAUTOMATIC = 3;
+                                    listEU.Add(EUT);
                                 }
                             }
                         }
@@ -482,7 +498,7 @@ namespace DataBarCode
             {//Если мы в Онлайне
                 try
                 {
-                    DataTable result = BrServer.POST_EU_LIST_RZDN_AGR(listEU.ToArray(), this.RZDN, null);
+                    DataTable result = BrServer.POST_EU_LIST_RZDN_AGR_TYPE(listEU.ToArray(), this.RZDN, null);
 
                     dataGridEu.BackColor = Color.MediumAquamarine;
                     OpenNETCF.Media.SystemSounds.Beep.Play();

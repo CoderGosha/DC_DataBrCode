@@ -396,7 +396,7 @@ namespace DataBarCode
 
                     if (_WareHousePost == null)
                     {
-                        _WareHousePost = new WarehousePost(bcr, EU, ListScanOperation.MXSet);
+                        _WareHousePost = new WarehousePost(bcr, EU, ListScanOperation.MXSet, 5);
                         _WareHousePost.Show();
                     }
 
@@ -404,7 +404,7 @@ namespace DataBarCode
                     {
                         _WareHousePost.Close();
                         // UIEU.Dispose();
-                        _WareHousePost = new WarehousePost(bcr, EU, ListScanOperation.MXSet);
+                        _WareHousePost = new WarehousePost(bcr, EU, ListScanOperation.MXSet, 5);
                         _WareHousePost.Show();
                     }
                 }

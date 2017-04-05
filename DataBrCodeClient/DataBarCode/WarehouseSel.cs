@@ -123,7 +123,7 @@ namespace DataBarCode
 
                                 if (_WareHousePost == null)
                                 {
-                                    _WareHousePost = new WarehousePost(bcr, EU, ScanOperation);
+                                    _WareHousePost = new WarehousePost(bcr, EU, ScanOperation, 5);
                                     _WareHousePost.Show();
                                 }
 
@@ -134,7 +134,7 @@ namespace DataBarCode
                                     {
                                         _WareHousePost.Close();
                                         // UIEU.Dispose();
-                                        _WareHousePost = new WarehousePost(bcr, EU, ScanOperation);
+                                        _WareHousePost = new WarehousePost(bcr, EU, ScanOperation, 5);
                                         _WareHousePost.Show();
                                     }
                                 }
@@ -148,7 +148,7 @@ namespace DataBarCode
 
                                 if (_WareHousePost == null)
                                 {
-                                    _WareHousePost = new WarehousePost(bcr, EU, ScanOperation);
+                                    _WareHousePost = new WarehousePost(bcr, EU, ScanOperation, 5);
                                     _WareHousePost.Show();
                                 }
 
@@ -159,7 +159,7 @@ namespace DataBarCode
                                     {
                                         _WareHousePost.Close();
                                         // UIEU.Dispose();
-                                        _WareHousePost = new WarehousePost(bcr, EU, ScanOperation);
+                                        _WareHousePost = new WarehousePost(bcr, EU, ScanOperation, 5);
                                         _WareHousePost.Show();
                                     }
                                 }
@@ -218,7 +218,7 @@ namespace DataBarCode
 
                             if (_WareHousePost == null)
                             {
-                                _WareHousePost = new WarehousePost(bcr, SelectedPlace, ScanOperation);
+                                _WareHousePost = new WarehousePost(bcr, SelectedPlace, ScanOperation, 3);
                                 _WareHousePost.Show();
                             }
 
@@ -229,7 +229,7 @@ namespace DataBarCode
                                 {
                                     _WareHousePost.Close();
                                     // UIEU.Dispose();
-                                    _WareHousePost = new WarehousePost(bcr, SelectedPlace, ScanOperation);
+                                    _WareHousePost = new WarehousePost(bcr, SelectedPlace, ScanOperation, 3);
                                     _WareHousePost.Show();
                                 }
                             }
@@ -243,7 +243,7 @@ namespace DataBarCode
 
                             if (_WareHousePost == null)
                             {
-                                _WareHousePost = new WarehousePost(bcr, SelectedPlace, ScanOperation);
+                                _WareHousePost = new WarehousePost(bcr, SelectedPlace, ScanOperation, 3);
                                 _WareHousePost.Show();
                             }
 
@@ -254,7 +254,7 @@ namespace DataBarCode
                                 {
                                     _WareHousePost.Close();
                                     // UIEU.Dispose();
-                                    _WareHousePost = new WarehousePost(bcr, SelectedPlace, ScanOperation);
+                                    _WareHousePost = new WarehousePost(bcr, SelectedPlace, ScanOperation, 3);
                                     _WareHousePost.Show();
                                 }
                             }
@@ -362,7 +362,7 @@ namespace DataBarCode
             {
                 if (_WareHousePost == null)
                 {
-                    _WareHousePost = new WarehousePost(bcr, "MX0263.2630001", ListScanOperation.MXSet);
+                    _WareHousePost = new WarehousePost(bcr, "MX0263.2630001", ListScanOperation.MXSet, 3);
                     _WareHousePost.Show();
                 }
 
@@ -370,7 +370,7 @@ namespace DataBarCode
                 {
                     _WareHousePost.Close();
                     // UIEU.Dispose();
-                    _WareHousePost = new WarehousePost(bcr, "MX0263.2630001", ListScanOperation.MXSet);
+                    _WareHousePost = new WarehousePost(bcr, "MX0263.2630001", ListScanOperation.MXSet, 3);
                     _WareHousePost.Show();
                 }
             }
@@ -379,7 +379,7 @@ namespace DataBarCode
             {
                 if (_WareHousePost == null)
                 {
-                    _WareHousePost = new WarehousePost(bcr, "MX0324.3240001", ListScanOperation.MXSet);
+                    _WareHousePost = new WarehousePost(bcr, "MX0324.3240001", ListScanOperation.MXSet, 3);
                     _WareHousePost.Show();
                 }
 
@@ -387,7 +387,7 @@ namespace DataBarCode
                 {
                     _WareHousePost.Close();
                     // UIEU.Dispose();
-                    _WareHousePost = new WarehousePost(bcr, "MX0324.3240001", ListScanOperation.MXSet);
+                    _WareHousePost = new WarehousePost(bcr, "MX0324.3240001", ListScanOperation.MXSet, 3);
                     _WareHousePost.Show();
                 }
             }
@@ -396,7 +396,7 @@ namespace DataBarCode
             {
                 if (_WareHousePost == null)
                 {
-                    _WareHousePost = new WarehousePost(bcr, "MX0362.3620001", ListScanOperation.MXSet);
+                    _WareHousePost = new WarehousePost(bcr, "MX0362.3620001", ListScanOperation.MXSet, 3);
                     _WareHousePost.Show();
                 }
 
@@ -404,7 +404,7 @@ namespace DataBarCode
                 {
                     _WareHousePost.Close();
                     // UIEU.Dispose();
-                    _WareHousePost = new WarehousePost(bcr, "MX0362.3620001", ListScanOperation.MXSet);
+                    _WareHousePost = new WarehousePost(bcr, "MX0362.3620001", ListScanOperation.MXSet, 3);
                     _WareHousePost.Show();
                 }
             }

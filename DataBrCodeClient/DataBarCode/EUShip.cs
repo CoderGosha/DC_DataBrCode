@@ -20,7 +20,7 @@ namespace DataBarCode
         public DataTable _tblEU;
         public bool FormActive = true;
         private Intermec.DataCollection.BarcodeReader bcr;
-        public List<string> listEU = null;
+        public List<WebReference.Relmuch> listEU = null;
         Settings set;
         public enum StatusScan { Ok, Fail, Init, Buffer };
 
@@ -83,7 +83,7 @@ namespace DataBarCode
             }
 
             SetColorBackGround(StatusScan.Ok);
-
+            listEU = new List<WebReference.Relmuch>();
         }
 
         public void CreateColumn(string HeaderText, string MappingName, int Width, int Pos)
@@ -101,47 +101,6 @@ namespace DataBarCode
 
         }
 
-        //public void CreateTable()
-        //{
-
-
-
-        //    ColumnStyle GridYECoulmn;
-        //    GridYECoulmn = new ColumnStyle(0);
-        //    GridYECoulmn.HeaderText = "УЕ";
-        //    GridYECoulmn.MappingName = "УЕ";
-        //    GridYECoulmn.Width = 80;
-        //    GridYECoulmn.CheckCellEven += new CheckCellEventHandler(myStyle_isEven);
-        //    dataGridTableStyleMain.GridColumnStyles.Add(GridYECoulmn);
-
-        //    ColumnStyle GridMarkaCoulmn;
-        //    GridMarkaCoulmn = new ColumnStyle(1);
-        //    GridMarkaCoulmn.HeaderText = "Марка";
-        //    GridMarkaCoulmn.MappingName = "Марка";
-        //    GridMarkaCoulmn.Width = 70;
-        //    GridMarkaCoulmn.CheckCellEven += new CheckCellEventHandler(myStyle_isEven);
-        //    dataGridTableStyleMain.GridColumnStyles.Add(GridMarkaCoulmn);
-
-
-        //    ColumnStyle GridRazmerCoulmn;
-        //    GridRazmerCoulmn = new ColumnStyle(2);
-        //    GridRazmerCoulmn.HeaderText = "Размер";
-        //    GridRazmerCoulmn.MappingName = "Размер";
-        //    GridRazmerCoulmn.Width = 70;
-        //    GridRazmerCoulmn.CheckCellEven += new CheckCellEventHandler(myStyle_isEven);
-        //    dataGridTableStyleMain.GridColumnStyles.Add(GridRazmerCoulmn);
-
-        //    ColumnStyle GridSelectCoulmn;
-        //    GridSelectCoulmn = new ColumnStyle(3);
-        //    GridSelectCoulmn.HeaderText = "Select";
-        //    GridSelectCoulmn.MappingName = "Select";
-        //   // GridSelectCoulmn.Width = 40;
-        //    GridSelectCoulmn.Width = 400;
-        //    GridSelectCoulmn.CheckCellEven += new CheckCellEventHandler(myStyle_isEven);
-        //    dataGridTableStyleMain.GridColumnStyles.Add(GridSelectCoulmn);
-
-
-        //}
         public void myStyle_isEven(object sender, DataGridEnableEventArgs e)
         {
             try
@@ -221,6 +180,12 @@ namespace DataBarCode
                     {
                         find = true;
                         _tblEU.Rows[i]["Select"] = "1";
+
+                        //Добавляем УЕ в список
+                        WebReference.Relmuch EUT = new WebReference.Relmuch();
+                        EUT.LABEL = EU;
+                        EUT.CODEAUTOMATIC = 5;
+                        listEU.Add(EUT);
                         break;
                     }
                 }
@@ -334,24 +299,27 @@ namespace DataBarCode
             BrServer.Credentials = new NetworkCredential(CBrHeader.Login, CBrHeader.Password);
             //Найдем задание 
             string RZDN = SqlLiteQuery.GetRZDNForLabel(TN);
-            //Спискок ЕУ запилим
+            //Необходимо перенести список на этап сканирования
+            ////Спискок ЕУ запилим
 
-            listEU = new List<string>();
-            for (int i = 0; i < _tblEU.Rows.Count; i++)
-            {
-                if (_tblEU.Rows[i]["Select"].ToString() == "1")
-                {
-                    listEU.Add(_tblEU.Rows[i]["Label"].ToString());
-                }
+            //listEU = new List<WebReference.Relmuch>();
 
-            }
+            //for (int i = 0; i < _tblEU.Rows.Count; i++)
+            //{
+            //    if (_tblEU.Rows[i]["Select"].ToString() == "1")
+            //    {
+            //        //Вот тут то и дичка
+            //        listEU.Add(_tblEU.Rows[i]["Label"].ToString());
+            //    }
+
+            //}
 
 
             if (BufferToBD.ModeNetTerminalB)
             {//Если мы в Онлайне
                 try
                 {
-                    DataTable result = BrServer.POST_EU_LIST_SHIP(listEU.ToArray(), RZDN, null);
+                    DataTable result = BrServer.POST_EU_LIST_SHIP_TYPE(listEU.ToArray(), RZDN, null);
 
                     dataGridEu.BackColor = Color.LightGray;
                     OpenNETCF.Media.SystemSounds.Beep.Play();
@@ -452,6 +420,12 @@ namespace DataBarCode
                                     {
                                         find = true;
                                         _tblEU.Rows[i]["Select"] = "1";
+                                        //Добавляем УЕ в список
+                                        WebReference.Relmuch EUT = new WebReference.Relmuch();
+                                        EUT.LABEL = elem.Label;
+                                        EUT.CODEAUTOMATIC = 3;
+                                        listEU.Add(EUT);
+                                        
                                         break;
                                     }
                                 }
@@ -510,6 +484,11 @@ namespace DataBarCode
                                 {
                                     find = true;
                                     _tblEU.Rows[i]["Select"] = "1";
+                                    //Добавляем УЕ в список
+                                    WebReference.Relmuch EUT = new WebReference.Relmuch();
+                                    EUT.LABEL = elem.Label;
+                                    EUT.CODEAUTOMATIC = 3;
+                                    listEU.Add(EUT);
                                     break;
                                 }
                             }

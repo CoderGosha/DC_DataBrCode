@@ -28,4 +28,5 @@ namespace CommonType
         public Double Weight {get; set;}
     }
 
+
 }
