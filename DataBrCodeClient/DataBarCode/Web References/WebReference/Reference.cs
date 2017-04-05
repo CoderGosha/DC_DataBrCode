@@ -561,6 +561,25 @@ namespace DataBarCode.WebReference {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("BrHeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("WebSDataBrCode/GET_ACTUAL_VERSION_CLIENT", RequestNamespace="WebSDataBrCode", ResponseNamespace="WebSDataBrCode", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public double GET_ACTUAL_VERSION_CLIENT() {
+            object[] results = this.Invoke("GET_ACTUAL_VERSION_CLIENT", new object[0]);
+            return ((double)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGET_ACTUAL_VERSION_CLIENT(System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GET_ACTUAL_VERSION_CLIENT", new object[0], callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public double EndGET_ACTUAL_VERSION_CLIENT(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((double)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("BrHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("WebSDataBrCode/BLACKLISTAPP", RequestNamespace="WebSDataBrCode", ResponseNamespace="WebSDataBrCode", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] BLACKLISTAPP() {
             object[] results = this.Invoke("BLACKLISTAPP", new object[0]);

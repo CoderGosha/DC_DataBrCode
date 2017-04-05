@@ -11,9 +11,9 @@ namespace DataBrUpdater
         /// Главная точка входа для приложения.
         /// </summary>
         [MTAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            Application.Run(new MainForm());
+            Application.Run(new MainForm(args));
         }
     }
 }

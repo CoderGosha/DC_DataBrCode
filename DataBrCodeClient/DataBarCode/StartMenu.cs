@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Intermec.DataCollection;
 using System.Threading;
 using System.Net;
+using System.Diagnostics;
 
 
 namespace DataBarCode
@@ -233,8 +234,8 @@ namespace DataBarCode
             {//Если терминал онлайн
                 try
                 {
-                    
-                        SqLiteDB.UpdateDataBaseEU();
+
+                    SqLiteDB.UpdateDataBaseEU();
                 }
 
                 catch (System.Net.WebException)
@@ -511,17 +512,58 @@ namespace DataBarCode
                 BrServer.SoapVersion = System.Web.Services.Protocols.SoapProtocolVersion.Soap12;
                 BrServer.BrHeaderValue = CBrHeader.GetHeader();
                 BrServer.Credentials = new NetworkCredential(CBrHeader.Login, CBrHeader.Password);
-
-
                 BrServer.Url = set.AdressAppServer;
-                String SReturn = BrServer.CHECK_CLIENT_VERSION();
+                Double CStableVer = BrServer.GET_ACTUAL_VERSION_CLIENT();
+                Double ClientVer = Double.Parse(CBrHeader.ClientVersion.Replace('.', ','));
 
-                labelBD.BeginInvoke(new Action(() =>
+                if (ClientVer < CStableVer)
+                {//Необходимо обновить ПО
+                    if (MessageBox.Show("Необходимо обновить ПО, запустить обновление?", "Обновление", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.OK)
+                    {
+                        ProcessStartInfo processStartInfo = new ProcessStartInfo();
+                        processStartInfo.FileName = @"DataBrCode\DataBrUpdater.exe";
+                        processStartInfo.WorkingDirectory = @"DataBrCode\";
+                        processStartInfo.Arguments = "/AutoUpdate";
+
+                        try
+                        {
+                            Process.Start(processStartInfo);
+                            try
+                            {//Выключаем потом обновления локальной БД
+                                UpdateLocalBdBool = false;
+                                UpdateLocalBd.Abort();
+                            }
+                            catch { }
+
+                            if (!set.Emulator)
+                                DisposeScaner();
+
+                            BufferToBD.StopReadBuffer();
+                            Application.Exit();
+                        }
+                        catch (Exception f)
+                        {
+                            MessageBox.Show(f.ToString());
+                        }
+                    }
+                }
+                else if (ClientVer == CStableVer)
                 {
-                    labelBD.Text = SReturn;
-                    labelBD.ForeColor = Color.Yellow;
-                }));
-                Thread.Sleep(5000);
+                    labelBD.BeginInvoke(new Action(() =>
+                    {
+                        labelBD.Text = "Актуальная версия";
+                    }));
+                    Thread.Sleep(5000);
+                }
+                else
+                {
+                    labelBD.BeginInvoke(new Action(() =>
+                    {
+                        labelBD.Text = "Используется версия для разработчиков";
+                        labelBD.ForeColor = Color.Yellow;
+                    }));
+                    Thread.Sleep(5000);
+                }
 
                 CheckVersion = true;
             }

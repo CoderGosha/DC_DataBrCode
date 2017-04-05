@@ -438,6 +438,16 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GET_ACTUAL_VERSION_CLIENT">
+        <s:complexType />
+      </s:element>
+      <s:element name="GET_ACTUAL_VERSION_CLIENTResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GET_ACTUAL_VERSION_CLIENTResult" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="BLACKLISTAPP">
         <s:complexType />
       </s:element>
@@ -648,6 +658,15 @@
   <wsdl:message name="CHECK_CLIENT_VERSIONBrHeader">
     <wsdl:part name="BrHeader" element="tns:BrHeader" />
   </wsdl:message>
+  <wsdl:message name="GET_ACTUAL_VERSION_CLIENTSoapIn">
+    <wsdl:part name="parameters" element="tns:GET_ACTUAL_VERSION_CLIENT" />
+  </wsdl:message>
+  <wsdl:message name="GET_ACTUAL_VERSION_CLIENTSoapOut">
+    <wsdl:part name="parameters" element="tns:GET_ACTUAL_VERSION_CLIENTResponse" />
+  </wsdl:message>
+  <wsdl:message name="GET_ACTUAL_VERSION_CLIENTBrHeader">
+    <wsdl:part name="BrHeader" element="tns:BrHeader" />
+  </wsdl:message>
   <wsdl:message name="BLACKLISTAPPSoapIn">
     <wsdl:part name="parameters" element="tns:BLACKLISTAPP" />
   </wsdl:message>
@@ -771,6 +790,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Проверка актуальности версии</wsdl:documentation>
       <wsdl:input message="tns:CHECK_CLIENT_VERSIONSoapIn" />
       <wsdl:output message="tns:CHECK_CLIENT_VERSIONSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GET_ACTUAL_VERSION_CLIENT">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получаем актуальную версию клиента</wsdl:documentation>
+      <wsdl:input message="tns:GET_ACTUAL_VERSION_CLIENTSoapIn" />
+      <wsdl:output message="tns:GET_ACTUAL_VERSION_CLIENTSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="BLACKLISTAPP">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">BlackListAPP</wsdl:documentation>
@@ -1002,6 +1026,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:CHECK_CLIENT_VERSIONBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GET_ACTUAL_VERSION_CLIENT">
+      <soap:operation soapAction="WebSDataBrCode/GET_ACTUAL_VERSION_CLIENT" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GET_ACTUAL_VERSION_CLIENTBrHeader" part="BrHeader" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -1242,6 +1276,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:CHECK_CLIENT_VERSIONBrHeader" part="BrHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GET_ACTUAL_VERSION_CLIENT">
+      <soap12:operation soapAction="WebSDataBrCode/GET_ACTUAL_VERSION_CLIENT" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GET_ACTUAL_VERSION_CLIENTBrHeader" part="BrHeader" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

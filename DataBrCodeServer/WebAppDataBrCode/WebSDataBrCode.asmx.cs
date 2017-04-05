@@ -1680,6 +1680,35 @@ RELMUCH_PRM	258552982
         [SoapHeader("brHeader")]
         //Receive any SOAP headers other than MyHeader.
         [SoapHeader("unknownHeaders")]
+        [WebMethod(Description = "Получаем актуальную версию клиента")]
+        public Double GET_ACTUAL_VERSION_CLIENT()
+        {
+            Double IReturn = -1;
+            try
+            {
+
+                InitUser();
+                TInfo t = Identific(brHeader);
+                AddAllLog(t, "GET_ACTUAL_VERSION_CLIENT", "Проверяем версию клиента");
+
+                string CurrentClient = ConfigurationManager.AppSettings["CurrentVersionClient"];
+                IReturn = Double.Parse(CurrentClient.Replace('.', ','));
+
+                EndUser();
+            }
+            catch (Exception ex)
+            {
+                AddAllLog("CHECK_CLIENT_VERSION", "Ошибка при проверке версии ТСД" + ex.ToString());
+
+            }
+
+            return IReturn;
+        }
+
+
+        [SoapHeader("brHeader")]
+        //Receive any SOAP headers other than MyHeader.
+        [SoapHeader("unknownHeaders")]
         [WebMethod(Description = "BlackListAPP")]
         public List<string> BLACKLISTAPP()
         {
