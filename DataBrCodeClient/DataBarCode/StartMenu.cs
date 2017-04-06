@@ -169,16 +169,16 @@ namespace DataBarCode
                 ButtonEnable(true);
                 //OpenNETCF.WindowsCE.Notification.Led vib = new OpenNETCF.WindowsCE.Notification.Led();
                 //vib.SetLedStatus(1, OpenNETCF.WindowsCE.Notification.Led.LedState.On);
-                OpenNETCF.WindowsMobile.Vibrate.Play();
+               
                 //Тут включить бы вибрацию.
-                OpenNETCF.Media.SystemSounds.Beep.Play();
+                Sound.PlaySoundWarningVolumeHIGH();
                 Thread.Sleep(100);
-                OpenNETCF.Media.SystemSounds.Beep.Play();
+                Sound.PlaySoundWarningVolumeHIGH();
                 Thread.Sleep(100);
-                OpenNETCF.Media.SystemSounds.Beep.Play();
+                Sound.PlaySoundWarningVolumeHIGH();
 
                 //  vib.SetLedStatus(1, OpenNETCF.WindowsCE.Notification.Led.LedState.Off);
-                OpenNETCF.WindowsMobile.Vibrate.Stop();
+               
 
                 CLog.WriteInfo("StartMenu.cs", "Start Ok");
 
@@ -732,6 +732,15 @@ namespace DataBarCode
 
             }
 
+            else if (e.KeyCode == Keys.F16)
+            {
+                bool rezult = ScreenShot.MakeShot("LogUpdate");
+                if (rezult)
+                    MessageBox.Show("Снимок успешно сохранен", "ScreenShot", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
+                else
+                    MessageBox.Show("Ошибка сохранения", "ScreenShot", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
+
+            }
 
 
         }

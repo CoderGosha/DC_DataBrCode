@@ -46,6 +46,10 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BeeMobile.FreeUtils.CF35, Version=1.0.2.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\BeeMobile.FreeUtils.CF35.dll</HintPath>
+    </Reference>
     <Reference Include="Intermec.DataCollection.CF3.5, Version=5.10.2.116, Culture=neutral, PublicKeyToken=acd169b56b6148ba, processorArchitecture=MSIL" />
     <Reference Include="Ionic.Zip.CF, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -389,6 +393,7 @@
     <Content Include="Logo.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DLL\" />
     <Folder Include="icon\" />
     <Folder Include="sound\" />
   </ItemGroup>

@@ -116,6 +116,31 @@ namespace DataBarCode
                 Thread InitTh = new Thread(UploadLog);
                 InitTh.Start();
             }
+
+            else if (e.KeyCode == Keys.F16)
+            {
+                bool rezult = ScreenShot.MakeShot("LogUpdate");
+                if (rezult)
+                    MessageBox.Show("Снимок успешно сохранен", "ScreenShot", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
+                else
+                    MessageBox.Show("Ошибка сохранения", "ScreenShot", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
+
+            }
+        }
+
+        private void buttonCleanScreen_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //Запустим удаленеи скриншотов
+                int counter = CLog.CleanScreenShoot();
+                MessageBox.Show("Delete: " + counter.ToString() + " ScreenShot", "ScreenShot", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "ScreenShot", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
+            }
+
         }
     }
 }
