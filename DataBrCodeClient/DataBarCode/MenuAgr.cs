@@ -137,7 +137,7 @@ namespace DataBarCode
         {
             if (_WareHousePost == null)
             {
-                _WareHousePost = new WarehousePost(bcr, "MX0263.2630001", ScanOperation, 3);
+                _WareHousePost = new WarehousePost(bcr, "MX0263.2630001", ListScanOperation.EuInAgrTESA, 3);
                 _WareHousePost.Show();
             }
 
@@ -148,7 +148,7 @@ namespace DataBarCode
                 {
                     _WareHousePost.Close();
                     // UIEU.Dispose();
-                    _WareHousePost = new WarehousePost(bcr, "MX0263.2630001", ScanOperation, 3);
+                    _WareHousePost = new WarehousePost(bcr, "MX0263.2630001", ListScanOperation.EuInAgrTESA, 3);
                     _WareHousePost.Show();
                 }
             }
@@ -158,7 +158,7 @@ namespace DataBarCode
         {
             if (_WareHousePost == null)
             {
-                _WareHousePost = new WarehousePost(bcr, "MX0324.3240001", ScanOperation, 3);
+                _WareHousePost = new WarehousePost(bcr, "MX0324.3240001", ListScanOperation.EuInAgrTESA, 3);
                 _WareHousePost.Show();
             }
 
@@ -169,7 +169,7 @@ namespace DataBarCode
                 {
                     _WareHousePost.Close();
                     // UIEU.Dispose();
-                    _WareHousePost = new WarehousePost(bcr, "MX0324.3240001", ScanOperation, 3);
+                    _WareHousePost = new WarehousePost(bcr, "MX0324.3240001", ListScanOperation.EuInAgrTESA, 3);
                     _WareHousePost.Show();
                 }
             }
@@ -179,7 +179,7 @@ namespace DataBarCode
         {
             if (_WareHousePost == null)
             {
-                _WareHousePost = new WarehousePost(bcr, "MX0362.3620001", ScanOperation, 3);
+                _WareHousePost = new WarehousePost(bcr, "MX0362.3620001", ListScanOperation.EuInAgrTESA, 3);
                 _WareHousePost.Show();
             }
 
@@ -190,7 +190,7 @@ namespace DataBarCode
                 {
                     _WareHousePost.Close();
                     // UIEU.Dispose();
-                    _WareHousePost = new WarehousePost(bcr, "MX0362.3620001", ScanOperation, 3);
+                    _WareHousePost = new WarehousePost(bcr, "MX0362.3620001", ListScanOperation.EuInAgrTESA, 3);
                     _WareHousePost.Show();
                 }
             }

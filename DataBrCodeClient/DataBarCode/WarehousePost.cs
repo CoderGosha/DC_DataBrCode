@@ -16,6 +16,10 @@ namespace DataBarCode
 {
     public partial class WarehousePost : Form
     {
+        /// <summary>
+        /// Для режима ListScanOperation.EuInAgrTESA
+        /// Если в таблице есть одна штука, то не разрешаем добавлять еще одну..
+        /// </summary>
         public string LoginUser;
         public Intermec.DataCollection.BarcodeReader bcr;
         public string LabelEU;
@@ -30,7 +34,7 @@ namespace DataBarCode
         public string SETRZDN { get; set; }
         // public BarcodeReadEventHandler _returnFunc;
         public bool OperationComplete = false;
-
+        public bool addManualFirst = false;
         public WarehousePost(Intermec.DataCollection.BarcodeReader _bcr, string LabelPlace, ListScanOperation _ScanOperation, int MxCodeAutomation)
         {
             InitializeComponent();
@@ -94,6 +98,12 @@ namespace DataBarCode
                 case ListScanOperation.EuInAgr:
                     {
                         this.Text = "ЕУ в агрегат";
+                        break;
+                    }
+                case ListScanOperation.EuInAgrTESA:
+                    {
+                        this.Text = "ЕУ в агрегат ТЭСА";
+                        addManualFirst = true;
                         break;
                     }
 
@@ -254,6 +264,14 @@ namespace DataBarCode
             bcr.symbology.QrCode.Enable = false;
         }
 
+        private bool CheckEuInAgrTESA()
+        {
+            bool result = false;
+            if (_tblEU.Rows.Count >= 1)
+                 result = true;
+            return result;
+        }
+
         void bcr_BarcodeReadWarehousePost(object sender, BarcodeReadEventArgs bre)
         {
 
@@ -292,9 +310,25 @@ namespace DataBarCode
                             CleanCommitEU(5);
                             break;
                         }
+
+                    case ListScanOperation.EuInAgrTESA:
+                        {
+                            CleanCommitEU(3);
+                            if (CheckEuInAgrTESA())
+                            {
+                                Sound.PlaySoundExclamationVolumeVeryHIGH();
+                                Thread.Sleep(100);
+                                Sound.PlaySoundExclamationVolumeVeryHIGH();
+                                return;
+                            }
+                            
+                            break;
+                        }
                     default:
                         break;
                 }
+
+                //Очистка звершена. 
 
                 dataGridEu.BeginInvoke(new Action(() =>
                 {
@@ -831,6 +865,13 @@ namespace DataBarCode
                             break;
                         }
 
+                    case ListScanOperation.EuInAgrTESA:
+                        {
+                            OperationComplete = true;
+                            EUInAgr();
+                            break;
+                        }
+
                     case ListScanOperation.InventoryTask:
                         {
                             InventorySet();
@@ -914,6 +955,19 @@ namespace DataBarCode
                                     CleanCommitEU(3);
                                     break;
                                 }
+
+                            case ListScanOperation.EuInAgrTESA:
+                                {
+                                    CleanCommitEU(3);
+                                    if (CheckEuInAgrTESA())
+                                    {
+                                        Sound.PlaySoundExclamationVolumeVeryHIGH();
+                                        Thread.Sleep(100);
+                                        Sound.PlaySoundExclamationVolumeVeryHIGH();
+                                        return;
+                                    }
+                                    break;
+                                }
                             default:
                                 break;
                         }
@@ -946,6 +1000,9 @@ namespace DataBarCode
                                     EUT.LABEL = elem.Label;
                                     EUT.CODEAUTOMATIC = 3;
                                     listEU.Add(EUT);
+                                    //Если нужено добавлять по 1 штуке
+                                    if (addManualFirst)
+                                        break;
                                 }
                             }
                         }
@@ -989,10 +1046,36 @@ namespace DataBarCode
         {//Запускаем интерефейс поиска ЕУ
             EUSearch search = new EUSearch();
             DialogResult DL = search.ShowDialog();
+           
             if (DL == DialogResult.OK)
             {
                 if (search._tblEU.Rows.Count > 0)
                 {
+                    //Удалим все УЕ которые закоммитилист.
+                    switch (ScanOperation)
+                    {
+                        case ListScanOperation.EuInAgr:
+                            {
+                                CleanCommitEU(3);
+                                break;
+                            }
+
+                        case ListScanOperation.EuInAgrTESA:
+                            {
+                                CleanCommitEU(3);
+                                if (CheckEuInAgrTESA())
+                                {
+                                    Sound.PlaySoundExclamationVolumeVeryHIGH();
+                                    Thread.Sleep(100);
+                                    Sound.PlaySoundExclamationVolumeVeryHIGH();
+                                    return;
+                                }
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+
                     //Запросим выбрнаные УЕ
                     List<CommonType.SelectEU> SelList = search.GetSelectedEU();
                     if (SelList != null)
@@ -1021,7 +1104,13 @@ namespace DataBarCode
                                 EUT.LABEL = elem.Label;
                                 EUT.CODEAUTOMATIC = 3;
                                 listEU.Add(EUT);
+
+                                //Если нужено добавлять по 1 штуке
+                                if (addManualFirst)
+                                    break;
                             }
+
+
                         }
                     }
 

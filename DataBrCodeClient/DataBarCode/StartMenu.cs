@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace DataBarCode
 {
-    public enum ListScanOperation { MXView, MXSet, EUShip, EUTaskMove, EuInAgr, TaskPGA, InventoryTask };
+    public enum ListScanOperation { MXView, MXSet, EUShip, EUTaskMove, EuInAgr, TaskPGA, InventoryTask, EuInAgrTESA };
 
     public partial class StartMenu : Form
     {

@@ -33,6 +33,14 @@ namespace DataBarCode
             OpenNETCF.Media.SystemSounds.Beep.Play();
             BeeMobile.VolumeControl.Volume = v;
         }
+
+        public static void PlaySoundExclamationVolumeVeryHIGH()
+        {
+            BeeMobile.Volumes v = BeeMobile.VolumeControl.Volume;
+            BeeMobile.VolumeControl.Volume = BeeMobile.Volumes.VERY_HIGH;
+            OpenNETCF.Media.SystemSounds.Exclamation.Play();
+            BeeMobile.VolumeControl.Volume = v;
+        }
     }
 
     public static class LedIndicator
