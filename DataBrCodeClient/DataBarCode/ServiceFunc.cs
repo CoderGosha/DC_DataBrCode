@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Net;
+using Ionic.Zip;
 
 namespace DataBarCode
 {
@@ -43,6 +44,7 @@ namespace DataBarCode
             }
             blacklistApp = new List<string>();
             CheckSecurity();
+            LogFilesProgram();
         }
 
         private void ButtonEnabled(bool enable)
@@ -171,7 +173,7 @@ namespace DataBarCode
 
             else if (e.KeyCode == Keys.E)
             {
-               
+
             }
         }
 
@@ -287,44 +289,58 @@ namespace DataBarCode
             }
         }
 
-        private void buttonAppOn_Click(object sender, EventArgs e)
-        {
+        private void restoreFiles(){
             string FolderBackup = "TempFilesBackup";
-
-            int BackUpFile = 0;
 
             foreach (var elem in Directory.GetFiles(FolderBackup))
             {
                 try
                 {
                     //Определим имя файла для копирования
-                    File.Copy(elem, @"Windows\Главное меню\Программы" + "\\" + GetFileName(elem), true);
-                    BackUpFile++;
+                    File.Copy(elem, "Windows\\Главное меню\\Программы\\" + GetFileName(elem), true);
+                   // BackUpFile++;
                 }
                 catch (Exception ex)
                 {
-                    CLog.WriteException("ServiceFunc", "buttonAppOn_Click", ex.ToString());
+                    CLog.WriteException("ServiceFunc", "restoreFiles", ex.ToString());
                 }
 
             }
 
-            labelStatus.BeginInvoke(new Action(() =>
+            foreach (var elem in Directory.GetDirectories(FolderBackup))
             {
-                labelStatus.Text = "Restore files: " + BackUpFile.ToString();
-            }));
+                try
+                {
+                    Directory.CreateDirectory("Windows\\Главное меню\\Программы\\" + "\\" + GetFileName(elem));
+
+                    foreach (var e in Directory.GetFiles(elem))
+                    {
+                        try
+                        {
+                            File.Copy(e, "Windows\\Главное меню\\Программы\\" + "\\" + GetFileName(elem) + "\\" + GetFileName(e), true);
+                            //BackUpFile++;
+                        }
+                        catch (Exception eeee)
+                        {
+
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+
+
         }
 
-        private void buttonAppOFF_Click(object sender, EventArgs e)
+        private void BackupFile()
         {
-            ///Выключаем ярлыки, для уверенности копируем их в куда-то...
-            ///
-            if (blacklistApp == null)
-                return;
-
-          //  foreach (
-            //Создадим директорию, скидаем файлы из списка..
             string FolderBackup = "TempFilesBackup";
-            //Сейчас включим только копирование
+            int BackUpFile = 0;
             try
             {
                 Directory.CreateDirectory(FolderBackup);
@@ -334,14 +350,13 @@ namespace DataBarCode
 
             }
 
-            int BackUpFile = 0;
-            foreach (var elem in blacklistApp)
+            foreach (var elem in Directory.GetFiles("Windows\\Главное меню\\Программы\\"))
             {
                 try
                 {
                     //Определим имя файла для копирования
                     File.Copy(elem, FolderBackup + "\\" + GetFileName(elem), true);
-                    BackUpFile++;
+                    //BackUpFile++;
                 }
                 catch (Exception ex)
                 {
@@ -350,14 +365,63 @@ namespace DataBarCode
 
             }
 
+            foreach (var elem in Directory.GetDirectories("Windows\\Главное меню\\Программы\\"))
+            {
+                try
+                {
+                    Directory.CreateDirectory(FolderBackup + "\\" + GetFileName(elem));
+
+                    foreach (var e in Directory.GetFiles(elem))
+                    {
+                        try
+                        {
+                            File.Copy(e, FolderBackup + "\\" + GetFileName(elem) + "\\" + GetFileName(e), true);
+                            BackUpFile++;
+                        }
+                        catch (Exception eeee)
+                        {
+
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+
+        }
+
+        private void buttonAppOn_Click(object sender, EventArgs e)
+        {
+
+            restoreFiles();
+            // Unzip("TempFilesBackup\\Links.zip", @"Windows\Главное меню\Программы");
+
+            labelStatus.BeginInvoke(new Action(() =>
+            {
+                labelStatus.Text = "Restore files";
+            }));
+        }
+
+
+
+        private void buttonAppOFF_Click(object sender, EventArgs e)
+        {
+            ///Выключаем ярлыки, для уверенности копируем их в куда-то...
+            ///
+            if (blacklistApp == null)
+                return;
+            BackupFile();
+
             int DelFile = DeleteFileList(blacklistApp);
 
             labelStatus.BeginInvoke(new Action(() =>
             {
-                labelStatus.Text = "Backup/Delete files: " + BackUpFile.ToString() + "/" + DelFile.ToString();
+                labelStatus.Text = "Delete files: " + DelFile.ToString();
             }));
-
-            
 
         }
         private string GetFileName(string pathFile)
@@ -373,8 +437,11 @@ namespace DataBarCode
             {
                 try
                 {
+                    if (elem.IndexOf(".lnk") == -1)
+                        Directory.Delete(elem, true);
                     //Определим имя файла для копирования
-                    File.Delete(elem);
+                    else
+                        File.Delete(elem);
                     DeleteFile++;
                 }
                 catch (Exception ex)
@@ -384,6 +451,47 @@ namespace DataBarCode
 
             }
             return DeleteFile;
+        }
+
+        private void LogFilesProgram()
+        {
+            foreach (var elem in Directory.GetFiles("Windows\\Главное меню\\Программы\\"))
+            {
+                try
+                {
+                    CLog.WriteInfo("ServiceFunc", "LogFilesProgram " + elem);
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+
+            foreach (var elem in Directory.GetDirectories("Windows\\Главное меню\\Программы\\"))
+            {
+                try
+                {
+                    CLog.WriteInfo("ServiceFunc", "LogFilesProgram Dir:" + elem);
+                    foreach (var e in Directory.GetFiles(elem))
+                    {
+                        try
+                        {
+                            CLog.WriteInfo("ServiceFunc", "LogFilesProgram " + e);
+                        }
+                        catch (Exception eeee)
+                        {
+
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
         }
 
     }
