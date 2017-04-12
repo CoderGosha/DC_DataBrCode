@@ -104,7 +104,7 @@ namespace DataBarCode
 
                                 ";
                 if (SerachTHICKNESS) //Добавляем толщину к поиску
-                    SQL += " AND EU.RELMUCH_THICKNESS = '" + textBoxTol.Text + "'";
+                    SQL += " AND EU.RELMUCH_THICKNESS = '" + textBoxTol.Text.Replace(".", ",") + "'";
 
                 if (SerachRELMUCH_WIDTH) //Добавляем ширину к поиску
                     SQL += " AND EU.RELMUCH_WIDTH = '" + textBoxScanW.Text + "'";

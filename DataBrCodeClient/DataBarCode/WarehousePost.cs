@@ -117,6 +117,36 @@ namespace DataBarCode
             labelCountScan.Text = "0";
         }
 
+        public void ReInitMX(string MX){
+            listEU = new List<WebReference.Relmuch>();
+            _tblEU = InitTable();
+            this.labelPlace = MX;
+            CMxPlace = new DataBarCode.WebReference.MXPlace();
+            CMxPlace.LABEL = MX;
+            CMxPlace.CODEAUTOMATIC = 5;
+
+            labelCountScan.BeginInvoke(new Action(() =>
+            {
+                labelCountScan.Text = "0";
+            }));
+
+            dataGridEu.BeginInvoke(new Action(() =>
+            {
+                dataGridEu.DataSource = _tblEU;
+            }));
+
+            labelMX.BeginInvoke(new Action(() =>
+            {
+                labelMX.Text = MX;
+            }));
+
+            labelMXMore.BeginInvoke(new Action(() =>
+            {
+                labelMXMore.Text = SqlLiteQuery.GetNameMX(MX);
+            }));
+            
+        }
+
 
         public DataTable InitTable()
         {
@@ -285,10 +315,31 @@ namespace DataBarCode
 
                 if (EU.IndexOf("MX") == 0)
                 {//
-                    //labelStatus.BeginInvoke(new Action(() =>
-                    //{
-                    //    labelStatus.Text = "Считано место хранения: " + EU;
-                    //}));
+                   //Проверим все ли ЕУ заквитированы
+                    if (_tblEU == null)
+                        ReInitMX(EU);
+                    else if (_tblEU.Rows.Count == 0)
+                        ReInitMX(EU);
+                    else
+                    {//Проверим на квитацию.
+                        int counterEU = 0;
+                        for (int i = 0; i < _tblEU.Rows.Count; i++)
+                        {
+                            if ((_tblEU.Rows[i]["Commit"].ToString() == "0") || (_tblEU.Rows[i]["Commit"].ToString() == "-1"))
+                            {
+                                counterEU++;
+                            }
+                        }
+                        if (counterEU == 0)
+                            ReInitMX(EU);
+                        else
+                        {
+                            Sound.PlaySoundExclamationVolumeVeryHIGH();
+                            Thread.Sleep(100);
+                            Sound.PlaySoundExclamationVolumeVeryHIGH();
+                            return;
+                        }
+                    }
                     return;
                 }
 
@@ -1028,7 +1079,7 @@ namespace DataBarCode
 
             else if (e.KeyCode == Keys.F14)
             {
-                // TestAdd("754577007N6");
+              //  ReInitMX(this.labelPlace);
             }
         }
 
