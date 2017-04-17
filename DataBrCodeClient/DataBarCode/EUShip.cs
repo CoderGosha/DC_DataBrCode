@@ -376,7 +376,7 @@ namespace DataBarCode
                 Thread.Sleep(100);
                 OpenNETCF.Media.SystemSounds.Beep.Play();
 
-                SetColorBackGround(StatusScan.Fail);
+                SetColorBackGround(StatusScan.Buffer);
 
             }
             //Анализируем результат, и подсветку делаем строк
