@@ -45,6 +45,7 @@
             this.dataGridTextBoxColumn4 = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dataGridTextBoxColumn5 = new System.Windows.Forms.DataGridTextBoxColumn();
             this.labelDetal = new System.Windows.Forms.Label();
+            this.labelCountScan = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelBD
@@ -178,6 +179,16 @@
             this.labelDetal.Size = new System.Drawing.Size(230, 23);
             this.labelDetal.Text = "Марка: Тест, Размер: Тест";
             // 
+            // labelCountScan
+            // 
+            this.labelCountScan.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular);
+            this.labelCountScan.ForeColor = System.Drawing.Color.White;
+            this.labelCountScan.Location = new System.Drawing.Point(3, 253);
+            this.labelCountScan.Name = "labelCountScan";
+            this.labelCountScan.Size = new System.Drawing.Size(32, 18);
+            this.labelCountScan.Text = "999";
+            this.labelCountScan.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // QueueTaskEU
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -186,6 +197,7 @@
             this.BackColor = System.Drawing.Color.MediumAquamarine;
             this.ClientSize = new System.Drawing.Size(238, 295);
             this.ControlBox = false;
+            this.Controls.Add(this.labelCountScan);
             this.Controls.Add(this.labelDetal);
             this.Controls.Add(this.dataGridEu);
             this.Controls.Add(this.buttonEUSearch);
@@ -217,5 +229,6 @@
         private System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn4;
         private System.Windows.Forms.Label labelDetal;
         private System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn5;
+        private System.Windows.Forms.Label labelCountScan;
     }
 }

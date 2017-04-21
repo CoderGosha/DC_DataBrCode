@@ -68,6 +68,11 @@ namespace DataBarCode
             labelDetal.Text = details;
             MarkaRZDNList = SqlLiteQuery.GetMarkabyRZDNList(_RZDN);
 
+            labelCountScan.BeginInvoke(new Action(() =>
+            {
+                labelCountScan.Text = "0";
+            }));
+
         }
 
         public void InitTable()
@@ -283,6 +288,10 @@ namespace DataBarCode
                     dataGridEu.DataSource = _tblEU;
                 }));
 
+                labelCountScan.BeginInvoke(new Action(() =>
+                {
+                    labelCountScan.Text = listEU.Count.ToString();
+                }));
 
                 labelMX.BeginInvoke(new Action(() =>
                 {
@@ -358,6 +367,11 @@ namespace DataBarCode
                         }
                     }
 
+                    labelCountScan.BeginInvoke(new Action(() =>
+                    {
+                        labelCountScan.Text = listEU.Count.ToString();
+                    }));
+
                     dataGridEu.BeginInvoke(new Action(() =>
                     {
                         dataGridEu.DataSource = _tblEU;
@@ -367,11 +381,40 @@ namespace DataBarCode
             }
         }
 
+        private bool CheckEUComplite()
+        {
+            bool BReturn = true;
+
+            //for (int i = 0; i < _tblEU.Rows.Count; i++)
+            //{
+            //    if ((_tblEU.Rows[i]["Commit"].ToString() == "0") || (_tblEU.Rows[i]["Commit"].ToString() == "-1"))
+            //    {
+            //        BReturn = false;
+            //        break;
+            //    }
+            //}
+
+            return BReturn;
+        }
+
+
         private void QueueTaskEU_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
-                this.Close();
+                //Проверка на операции в списке
+                if (!CheckEUComplite())
+                {
+                    //Если в буфере остались данные то спросить пользователя?!?
+                    if (DialogResult.OK == MessageBox.Show("Остались незавершенные операции. Вы действительно хотите выйти?", "Внимание", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                    {//Выходим
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    this.Close();
+                }
             }
 
             else if (e.KeyCode == Keys.F9)
@@ -436,6 +479,11 @@ namespace DataBarCode
                                 }
                             }
                         }
+
+                        labelCountScan.BeginInvoke(new Action(() =>
+                        {
+                            labelCountScan.Text = listEU.Count.ToString();
+                        }));
 
                         dataGridEu.BeginInvoke(new Action(() =>
                         {

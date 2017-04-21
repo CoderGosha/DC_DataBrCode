@@ -149,9 +149,13 @@ namespace WebAppDataBrCode
             InitUser();
             TInfo t = Identific(brHeader);
             AddAllLog(t, "GetServerDataTime", "ТСД синхронизирует время с сервером");
-            using (COracle orclCGP = new COracle())
+            if (ConfigurationManager.AppSettings["MODE_TEST"] == "true"){}
+            else
             {
-                orclCGP.SaveLogTSD("Терминал синхронизирует время", t.DnsAdress, t.Login, "1999");
+                using (COracle orclCGP = new COracle())
+                {
+                    orclCGP.SaveLogTSD("Терминал синхронизирует время", t.DnsAdress, t.Login, "1999");
+                }
             }
             EndUser();
             return DateTime.UtcNow;
@@ -961,9 +965,28 @@ RELMUCH_PRM	258552982
                 connection.ConnectionString = "Data Source = " + baseName;
 
 
+
                 SQLiteCommand command = new SQLiteCommand(connection);
                 connection.Open();
+
+                //SQLiteCommand parameter = new SQLiteCommand("PRAGMA journal_mode = OFF", connection);
+                //parameter.ExecuteNonQuery();
+
+                //parameter = new SQLiteCommand("PRAGMA cache_size  = 4000", connection);
+                //parameter.ExecuteNonQuery();
+
+                //parameter = new SQLiteCommand("PRAGMA temp_store = MEMORY", connection);
+                //parameter.ExecuteNonQuery();
+
+                //("PRAGMA count_changes = false");
+                //ExecuteSQLStatement("PRAGMA journal_mode = DELETE");
+
+                //ExecuteSQLStatement("PRAGMA synchronous = 0");
+
+                //ExecuteSQLStatement("PRAGMA temp_store = MEMORY");
+
                 SQLiteTransaction liteTransaction = connection.BeginTransaction();
+
 
                 while (reader.Read())
                 {

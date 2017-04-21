@@ -14,7 +14,7 @@ namespace DataBarCode
         static public string Password { get; set; }
         static public string DnsAdress { get; set; }
         static public string MacAdress { get; set; }
-        static public string ClientVersion { get { return "0.220"; } }
+        static public string ClientVersion { get { return "0.223"; } }
         static public void Init()
         {///Тут мы проиницилизируем все переменные
             MacAdress = "00:00:00:00";

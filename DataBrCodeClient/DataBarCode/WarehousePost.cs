@@ -492,6 +492,22 @@ namespace DataBarCode
 
         }
 
+        private bool CheckEUComplite()
+        {
+            bool BReturn = true;
+
+            for (int i = 0; i < _tblEU.Rows.Count; i++)
+            {
+                if ((_tblEU.Rows[i]["Commit"].ToString() == "0") || (_tblEU.Rows[i]["Commit"].ToString() == "-1"))
+                {
+                    BReturn = false;
+                    break;
+                }
+            }
+
+            return BReturn;
+        }
+
         public string _getReaderByName(SQLiteDataReader rd, string NameF)
         {
             string tmp = "Нет данных";
@@ -986,7 +1002,21 @@ namespace DataBarCode
         {
             if (e.KeyCode == Keys.Escape)
             {
-                this.Close();
+                //Проверка на операции в списке
+                if (!CheckEUComplite())
+                {
+                    //Если в буфере остались данные то спросить пользователя?!?
+                    if (DialogResult.OK == MessageBox.Show("Остались незавершенные операции. Вы действительно хотите выйти?", "Внимание", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                    {//Выходим
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    this.Close();
+                }
+
+                
             }
             else if (e.KeyCode == Keys.F12)
             {
@@ -1085,6 +1115,8 @@ namespace DataBarCode
 
         private void WarehousePost_Closed(object sender, EventArgs e)
         {
+
+
             bcr.BarcodeRead -= new BarcodeReadEventHandler(bcr_BarcodeReadWarehousePost);
 
             // bcr.BarcodeRead += new BarcodeReadEventHandler(_returnFunc);

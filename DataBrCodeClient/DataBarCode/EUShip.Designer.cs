@@ -129,6 +129,7 @@
             this.Controls.Add(this.dataGridEu);
             this.Name = "EUShip";
             this.Text = "Отгрузка";
+            this.Closed += new System.EventHandler(this.EUShip_Closed);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EUShip_KeyDown);
             this.ResumeLayout(false);
 

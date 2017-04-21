@@ -381,16 +381,41 @@ namespace DataBarCode
             }
             //Анализируем результат, и подсветку делаем строк
         }
+        private bool CheckEUComplite()
+        {
+            bool BReturn = true;
+
+            for (int i = 0; i < _tblEU.Rows.Count; i++)
+            {
+                if ((_tblEU.Rows[i]["Select"].ToString() == "0") || (_tblEU.Rows[i]["Select"].ToString() == "-1"))
+                {
+                    BReturn = false;
+                    break;
+                }
+            }
+
+            return BReturn;
+        }
 
 
         private void EUShip_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
-                bcr.BarcodeRead -= new BarcodeReadEventHandler(bcr_BarcodeReadEUShip);
-                bcr.symbology.Code128.Enable = true;
-                FormActive = false;
-                this.Close();
+
+                //Проверка на операции в списке
+                if (!CheckEUComplite())
+                {
+                    //Если в буфере остались данные то спросить пользователя?!?
+                    if (DialogResult.OK == MessageBox.Show("Остались незавершенные операции. Вы действительно хотите выйти?", "Внимание", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                    {//Выходим
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    this.Close();
+                }
             }
 
             else if (e.KeyCode == Keys.F12)
@@ -555,6 +580,13 @@ namespace DataBarCode
                     }
             }
 
+        }
+
+        private void EUShip_Closed(object sender, EventArgs e)
+        {
+            bcr.BarcodeRead -= new BarcodeReadEventHandler(bcr_BarcodeReadEUShip);
+            bcr.symbology.Code128.Enable = true;
+            FormActive = false;
         }
     }
 }
